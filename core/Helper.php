@@ -1,8 +1,15 @@
 <?php
 function abort($Error){
     $Errors = [
+        301 => 'Moved Permanently',
+        400 => 'Bad Request',
+        401 => 'Unauthorized',
+        402 => 'Payment Required',
+        403 => 'Forbiden',
         404 => 'Not Found',
-        403 => 'Forbiden'
+        405 => 'Method Not Allowed',
+        406 => 'Not Acceptable',
+        408 => 'Request Timeout'
     ];
     if(array_key_exists($Error,$Errors))
     {

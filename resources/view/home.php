@@ -6,7 +6,7 @@
     <title>home</title>
     <link rel="stylesheet" href="/src/css/style.css">
 </head>
-<body class="bg">
+<body class="bg-neutral-800 dark:text-white">
 
 </body>
 </html>

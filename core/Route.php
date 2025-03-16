@@ -3,36 +3,62 @@ namespace Core;
 
 use Core\Request;
 
-class Route{
-    private $Routes; 
+class Route extends Middleware{
+    private $Routes = [];  
+    private $lastRoute = [];
+    private $middlewares = [];
 
     public function __construct() {
         $this->Routes = [
-            "GET" => [],
-            "POST" => [],
-            "PATCH" => [],
-            "DELETE" => [],
-            "PUT" => []
+            "get" => [],
+            "post" => [],
+            "patch" => [],
+            "delete" => [],
+            "put" => []
         ];
     }
 
-    public function GET($url , $controller){
-        $this->Routes['GET'][$url] = $controller;
+    public function get($url , $controller){
+        $this->Routes['get'][$url] = $controller;
+        $this->lastRoute = ['method' => 'get' , 'route' => $url];
+        return $this;
     }
-    public function POST($url , $controller){
-        $this->Routes['POST'][$url] = $controller;
+    public function post($url , $controller){
+        $this->Routes['post'][$url] = $controller;
+        $this->lastRoute = ['method' => 'post' , 'route' => $url];
+        return $this;
     }
-    public function PATCH($url , $controller){
-        $this->Routes['PATCH'][$url] = $controller;
+    public function patch($url , $controller){
+        $this->Routes['patch'][$url] = $controller;
+        $this->lastRoute = ['method' => 'patch' , 'route' => $url];
+        return $this;
     }
-    public function DELETE($url , $controller){
-        $this->Routes['DELETE'][$url] = $controller;
+    public function delete($url , $controller){
+        $this->Routes['delete'][$url] = $controller;
+        $this->lastRoute = ['method' => 'delete' , 'route' => $url];
+        return $this;
     }
-    public function PUT($url , $controller){
-        $this->Routes['PUT'][$url] = $controller;
+    public function put($url , $controller){
+        $this->Routes['put'][$url] = $controller;
+        $this->lastRoute = ['method' => 'put' , 'route' => $url]; 
+        return $this;
+    }
+
+    public function middleware($middleware){
+        if (!empty($this->lastRoute)) {
+            $method = $this->lastRoute['method'];
+            $route = $this->lastRoute['route'];
+
+            $this->middlewares[$method][$route] = $middleware;
+        }
+        return $this;
     }
 
     public function Dispatch($url,$method){
+        $method = strtolower($method);
+        $request_middleware = $this->middlewares[$method][$url];
+        print_r($request_middleware);
+        exit;
         foreach ($this->Routes[$method] as $route => $controller) {
             $pattern = preg_replace('/\/(\d+)/', '/{id}', $url);
             if($pattern === $route)
