@@ -6,7 +6,7 @@
     <title>home</title>
     <link rel="stylesheet" href="/src/css/style.css">
 </head>
-<body class="bg-slate-600">
+<body class="bg">
 
 </body>
 </html>
