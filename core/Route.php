@@ -45,12 +45,10 @@ class Route extends Middleware{
     }
 
     public function middleware($middleware){
-        if (!empty($this->lastRoute)) {
-            $method = $this->lastRoute['method'];
-            $route = $this->lastRoute['route'];
-
-            $this->middlewares[$method][$route] = $middleware;
-        }
+        $method = $this->lastRoute['method'];
+        $route = $this->lastRoute['route'];
+        $this->middlewares[$method][$route] = $middleware;
+        
         return $this;
     }
 
