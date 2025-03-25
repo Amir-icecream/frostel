@@ -2,7 +2,7 @@
 namespace Core;
 
 class Middleware{
-    public function middleware($middleware){
+    public function handel($middleware){
         exit;
     }
 }

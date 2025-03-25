@@ -53,20 +53,29 @@ class Route extends Middleware{
     }
 
     public function Dispatch($url,$method){
+        $values = [];
         $method = strtolower($method);
-        $request_middleware = $this->middlewares[$method][$url];
-        print_r($request_middleware);
-        exit;
-        foreach ($this->Routes[$method] as $route => $controller) {
-            $pattern = preg_replace('/\/(\d+)/', '/{id}', $url);
-            if($pattern === $route)
+        $Routes = $this->Routes[$method];
+        foreach ($Routes as $route => $controller) {
+            $pattern = '/({\w+})/';
+            $a = preg_replace($pattern,'(\w+)',$route);
+            $a = str_replace('/','\/',$a);
+            $a = '/' . $a . '/';
+            preg_match($a,$url,$matches);
+            if(count($matches) !== 0)
             {
-                print_r($pattern);
-                return(0);
+                array_shift($matches);
+                preg_match_all('/{(\w+)}/',$route,$mat);
+                print_r($mat);
+                foreach ($matches as $key => $value) {
+                    $values += [$key => $value];
+                }
+                // print_r($a);
+                // return print_r($matches);
+                preg_match_all('/{(\w+)}/',$route,$mat);
+                return 1;
             }
-
         }
-
         return(\abort(404));
     }
 
