@@ -3,12 +3,10 @@ use Core\Route;
 use Core\Request;
 
 $Router = new Route;
-// $Router->get('/' , 'HomeController');
-view('home');
-$Router->get('/user/{id}' , 'HomeController1');
-$Router->get('/cart/{id}/{value}' , 'HomeController');
-// $Router->get('/user/{id}' , 'HomeController');
-
-$Router->Dispatch(Request::Url(),Request::Method());
+$Router->get('/' , 'HomeController');
+$Router->get('/user/{id}' , 'UserController');
+$Router->get('/product/{id}/{name}' , 'ProductController');
 
 
+
+// supported methods : get , post , delete , update , put ,  patch                                                                                                              

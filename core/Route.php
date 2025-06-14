@@ -51,32 +51,32 @@ class Route extends Middleware{
         
         return $this;
     }
-
+    
     public function Dispatch($url,$method){
-        $values = [];
+        $values = array();
+
         $method = strtolower($method);
         $Routes = $this->Routes[$method];
+
         foreach ($Routes as $route => $controller) {
-            $pattern = '/({\w+})/';
-            $a = preg_replace($pattern,'(\w+)',$route);
-            $a = str_replace('/','\/',$a);
-            $a = '/' . $a . '/';
-            preg_match($a,$url,$matches);
-            if(count($matches) !== 0)
+            $pattern = preg_replace('/{(\w+)}/',"([^/]+)",$route);
+
+            preg_match('#^' . $pattern . '$#',$url , $matches);
+            if(count($matches) && true)
             {
+                preg_match('#^' . $pattern . '$#',$route,$m);
                 array_shift($matches);
-                preg_match_all('/{(\w+)}/',$route,$mat);
-                print_r($mat);
-                foreach ($matches as $key => $value) {
-                    $values += [$key => $value];
+                array_shift($m);
+                foreach ($m as $key => $value) {
+                    $values[trim($value,'{}')] = $matches[$key];
                 }
-                // print_r($a);
-                // return print_r($matches);
-                preg_match_all('/{(\w+)}/',$route,$mat);
-                return 1;
+                extract($values);
+                return require_once(__DIR__ . "/../app/Controller/$controller.php");
             }
         }
-        return(\abort(404));
+        abort(404);
     }
 
 }
+
+//working on middleware 🔴
