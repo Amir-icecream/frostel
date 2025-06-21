@@ -1,4 +1,6 @@
 <?php
+use Core\Loader;
+
 function abort($Error){
     $Errors = [
         301 => 'Moved Permanently',
@@ -13,9 +15,8 @@ function abort($Error){
     ];
     if(array_key_exists($Error,$Errors))
     {
-        $error = $Error;
-        $message = $Errors[$Error];
-        require_once(__DIR__ . "/error.php");
+        http_response_code($Error);
+        return Loader::Error($Error,$Errors[$Error]);
     }
     else
     {
@@ -26,16 +27,11 @@ function abort($Error){
 }
 
 function view($view , $values = []){
-    if(file_exists(__DIR__ . "/../resources/view/$view.php"))
-    {
-        extract($values);
-        require_once(__DIR__ . "/../resources/view/$view.php");
-    }
-    else
-    {
-        http_response_code(500);
-        throw new Exception("view $view not found!!");
-        exit;
-    }
+    return Loader::View($view , $values);
 }
 
+function redirect($location){
+    http_response_code(307);
+    header("Location: $location");
+    exit;
+}

@@ -6,7 +6,12 @@
     <title>home</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
-<body class="bg-neutral-800 dark:text-white">
-    <a href="user/12">user page</a>
+<body class="bg-neutral-800 dark:text-white" >
+    <form action="/form" method="post" enctype="multipart/form-data">
+        <input type="text" name="text">
+        <input type="number" name="number">
+        <input type="file" name="images[]" multiple>
+        <input type="submit" value="submit">
+    </form>
 </body>
 </html>

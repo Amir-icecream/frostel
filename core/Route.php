@@ -1,15 +1,17 @@
 <?php
 namespace Core;
 
-use Core\Request;
+use Request;
+use Exception;
+use Core\Loader;
 
 class Route extends Middleware{
-    private $Routes = [];  
-    private $lastRoute = [];
-    private $middlewares = [];
+    private static $Routes = [];  
+    private static $lastRoute = [];
+    private static $middlewares = [];
 
     public function __construct() {
-        $this->Routes = [
+        self::$Routes = [
             "get" => [],
             "post" => [],
             "patch" => [],
@@ -18,60 +20,83 @@ class Route extends Middleware{
         ];
     }
 
-    public function get($url , $controller){
-        $this->Routes['get'][$url] = $controller;
-        $this->lastRoute = ['method' => 'get' , 'route' => $url];
-        return $this;
+    public static function get($url , $controller){
+        self::$Routes['get'][$url] = $controller;
+        self::$lastRoute = ['method' => 'get' , 'route' => $url];
+        return self::class;
     }
-    public function post($url , $controller){
-        $this->Routes['post'][$url] = $controller;
-        $this->lastRoute = ['method' => 'post' , 'route' => $url];
-        return $this;
+    public static function post($url , $controller){
+        self::$Routes['post'][$url] = $controller;
+        self::$lastRoute = ['method' => 'post' , 'route' => $url];
+        return self::class;
     }
-    public function patch($url , $controller){
-        $this->Routes['patch'][$url] = $controller;
-        $this->lastRoute = ['method' => 'patch' , 'route' => $url];
-        return $this;
+    public static function patch($url , $controller){
+        self::$Routes['patch'][$url] = $controller;
+        self::$lastRoute = ['method' => 'patch' , 'route' => $url];
+        return self::class;
     }
-    public function delete($url , $controller){
-        $this->Routes['delete'][$url] = $controller;
-        $this->lastRoute = ['method' => 'delete' , 'route' => $url];
-        return $this;
+    public static function delete($url , $controller){
+        self::$Routes['delete'][$url] = $controller;
+        self::$lastRoute = ['method' => 'delete' , 'route' => $url];
+        return self::class;
     }
-    public function put($url , $controller){
-        $this->Routes['put'][$url] = $controller;
-        $this->lastRoute = ['method' => 'put' , 'route' => $url]; 
-        return $this;
+    public static function put($url , $controller){
+        self::$Routes['put'][$url] = $controller;
+        self::$lastRoute = ['method' => 'put' , 'route' => $url]; 
+        return self::class;
     }
 
-    public function middleware($middleware){
-        $method = $this->lastRoute['method'];
-        $route = $this->lastRoute['route'];
-        $this->middlewares[$method][$route] = $middleware;
+    public static function middleware($middleware){
+        $method = self::$lastRoute['method'];
+        $route = self::$lastRoute['route'];
+        if(!isset(self::$middlewares[$method][$route]))
+        {
+            self::$middlewares[$method][$route] = [];
+        }
+        if(is_array($middleware))
+        {
+            self::$middlewares[$method][$route] = array_merge(self::$middlewares[$method][$route] , $middleware);
+        }
+        else
+        {
+            self::$middlewares[$method][$route][] = $middleware;
+        }
         
-        return $this;
+        return self::class;
     }
     
-    public function Dispatch($url,$method){
+    public static function Dispatch($url,$method){
         $values = array();
 
         $method = strtolower($method);
-        $Routes = $this->Routes[$method];
+        $Routes = self::$Routes[$method];
 
         foreach ($Routes as $route => $controller) {
             $pattern = preg_replace('/{(\w+)}/',"([^/]+)",$route);
 
             preg_match('#^' . $pattern . '$#',$url , $matches);
-            if(count($matches) && true)
+            if(count($matches))
             {
+                if(count(self::$middlewares) and !empty(self::$middlewares[$method]))
+                {
+                    if(array_key_exists($route , self::$middlewares[$method]))
+                    {
+                        foreach (self::$middlewares[$method][$url] as $key => $value) {
+                            if(!Middleware::handel($value))
+                            {
+                                return abort(406);
+                            }
+                        }
+                    }
+                }
+
                 preg_match('#^' . $pattern . '$#',$route,$m);
                 array_shift($matches);
                 array_shift($m);
                 foreach ($m as $key => $value) {
                     $values[trim($value,'{}')] = $matches[$key];
                 }
-                extract($values);
-                return require_once(__DIR__ . "/../app/Controller/$controller.php");
+                return Loader::Controller($controller,$values);
             }
         }
         abort(404);

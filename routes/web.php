@@ -1,12 +1,9 @@
 <?php
 use Core\Route;
-use Core\Request;
 
-$Router = new Route;
-$Router->get('/' , 'HomeController');
-$Router->get('/user/{id}' , 'UserController');
-$Router->get('/product/{id}/{name}' , 'ProductController');
+Route::get('/' , 'HomeController@show');
+Route::get('/user/{id}' , 'UserController');
 
-
-
-// supported methods : get , post , delete , update , put ,  patch                                                                                                              
+Route::get('/storage/img/{img}','StorageController');
+Route::get('/storage/video/{video}','StorageController');
+Route::get('/storage/pdf/{pdf}','StorageController');
