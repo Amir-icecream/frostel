@@ -12,7 +12,9 @@ switch ($command) {
     case 'view-fresh':
         Console::view_fresh();
         break;
-    
+    case 'delete-logs':
+        Console::delete_logs();
+        break;
     default:
         echo("command: $command not exist use help to show the command list");
         break;

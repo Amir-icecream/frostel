@@ -12,7 +12,8 @@ function abort($Error){
         404 => 'Not Found',
         405 => 'Method Not Allowed',
         406 => 'Not Acceptable',
-        408 => 'Request Timeout'
+        408 => 'Request Timeout',
+        500 => 'Internal Server Error',
     ];
     if(array_key_exists($Error,$Errors))
     {

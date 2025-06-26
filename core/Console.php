@@ -4,8 +4,11 @@ namespace Core;
 class console{
     public static function help(){
         $help = [
-            "hello dear Customer here is a list of console command that you can use for better experince\n",
-            "view-fresh : delte the cache of views\n"
+            "\n",
+            "hi here is a list of console command that you can use for better experince\n\n",
+            "view-fresh : delte the cache of views\n",
+            "delete-logs : delete the app logs file\n",
+            "help : show this help message\n\n"
         ];
         foreach ($help as $value) {
             echo($value);
@@ -22,6 +25,21 @@ class console{
                 unlink($file);
             }
         }
+        echo("all view cache deleted successfully\n");
         return true;
+    }
+    public static function delete_logs(){
+        $dir = __DIR__ . '/../config/logs/app.log';
+        if(file_exists($dir))
+        {
+            unlink($dir);
+            echo("all logs deleted successfully\n");
+            return true;
+        }
+        else
+        {
+            echo("logs file not found\n");
+            return false;
+        }
     }
 }

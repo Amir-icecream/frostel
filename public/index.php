@@ -14,6 +14,8 @@ try {
     throw new Exception("Environment load error : " . $e->getMessage());
 }
 
+Bootstrap::php_configuration();
+Bootstrap::exeption_handeler();
 if(Bootstrap::ApiCheck(Request::Url()))
 {
     require_once(__DIR__ . "/../routes/api.php");
@@ -23,5 +25,4 @@ else
     Session::Start();
     require_once(__DIR__ . "/../routes/web.php");
 }
-
 Route::Dispatch(Request::Url(),Request::Method());
