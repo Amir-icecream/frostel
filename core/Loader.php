@@ -15,7 +15,6 @@ class Loader {
         {
             throw new \Exception("Controller : $controller not Found!!");
         }
-        extract($values);
         require_once($file);
         if(!class_exists($controller))
         {
@@ -26,26 +25,11 @@ class Loader {
             throw new Exception("action : $action in class : $controller not found!!");
         }
         $class = new $controller();
-        return $class->$action();
-    }
-
-    public static function View($view , $val = null){
-        $file = __DIR__ . "/../resources/view/$view.php";
-        if(!file_exists($file))
-        {
-            http_response_code(500);
-            throw new \Exception("view : $view not found!!");
-        }
-        if(is_array($val))
-        {
-            extract($val);
-        }
-        return require_once($file);
-
+        return call_user_func_array([$class,$action],array_values($values));
     }
 
     public static function Error($error,$message){
-        $file = __DIR__ . "/error.php";
+        $file = __DIR__ . "/../config/error.php";
         return require_once($file);
     }
 }

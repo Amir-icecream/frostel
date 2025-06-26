@@ -6,19 +6,15 @@ use Exception;
 use Core\Loader;
 
 class Route extends Middleware{
-    private static $Routes = [];  
+    private static $Routes = [
+        "get" => [],
+        "post" => [],
+        "patch" => [],
+        "delete" => [],
+        "put" => []
+    ];  
     private static $lastRoute = [];
     private static $middlewares = [];
-
-    public function __construct() {
-        self::$Routes = [
-            "get" => [],
-            "post" => [],
-            "patch" => [],
-            "delete" => [],
-            "put" => []
-        ];
-    }
 
     public static function get($url , $controller){
         self::$Routes['get'][$url] = $controller;
@@ -69,32 +65,37 @@ class Route extends Middleware{
         $values = array();
 
         $method = strtolower($method);
+        if(!count(self::$Routes[$method]))
+        {
+            abort(405);
+        }
+        
         $Routes = self::$Routes[$method];
 
         foreach ($Routes as $route => $controller) {
             $pattern = preg_replace('/{(\w+)}/',"([^/]+)",$route);
 
-            preg_match('#^' . $pattern . '$#',$url , $matches);
-            if(count($matches))
+            preg_match('#^' . $pattern . '$#',$url , $umatches);
+            preg_match('#^' . $pattern . '$#',$route,$rmatches);
+            if(count($umatches))
             {
                 if(count(self::$middlewares) and !empty(self::$middlewares[$method]))
                 {
                     if(array_key_exists($route , self::$middlewares[$method]))
                     {
-                        foreach (self::$middlewares[$method][$url] as $key => $value) {
+                        foreach (self::$middlewares[$method][$route] as $key => $value) {
                             if(!Middleware::handel($value))
                             {
-                                return abort(406);
+                                abort(406);
                             }
                         }
                     }
                 }
 
-                preg_match('#^' . $pattern . '$#',$route,$m);
-                array_shift($matches);
-                array_shift($m);
-                foreach ($m as $key => $value) {
-                    $values[trim($value,'{}')] = $matches[$key];
+                array_shift($umatches);
+                array_shift($rmatches);
+                foreach ($umatches as $key => $value) {
+                    $values[trim($rmatches[$key],'{}')] = $umatches[$key];
                 }
                 return Loader::Controller($controller,$values);
             }
@@ -104,4 +105,3 @@ class Route extends Middleware{
 
 }
 
-//working on middleware 🔴
