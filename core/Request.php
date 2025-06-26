@@ -2,32 +2,23 @@
 namespace Core;
 
 class Request{
-
-    public static function Url(){
-        return($_SERVER['REQUEST_URI']);
+    public static function url(): string{
+        return($_SERVER['REQUEST_URI'] ?? '/');
     }
-    public static function Method(){
-        return($_SERVER['REQUEST_METHOD']);
+    public static function method(): string{
+        return($_SERVER['REQUEST_METHOD'] ?? 'GET');
     }
-    public static function Agent(){
-        return($_SERVER['HTTP_USER_AGENT']);
+    public static function agent(): string{
+        return($_SERVER['HTTP_USER_AGENT'] ?? 'unknown');
     }
-    public static function Platform(){
-        return($_SERVER['HTTP_SEC_CH_UA_PLATFORM']);
+    public static function platform(): string{
+        return($_SERVER['HTTP_SEC_CH_UA_PLATFORM'] ?? 'unknown');
     }
-    public static function File(){
-        return $_FILES;
+    public static function file(): array{
+        return $_FILES ?? [];
     }
-    
-    public static function Data(){
-        if(strtolower(self::Url()) === 'get')
-        {
-            return $_GET;
-        }
-        else
-        {
-            return $_POST;
-        }    
+    public static function data(): array{
+        return strtolower(self::Method()) === 'get' ? $_GET : $_POST;
     }
     
 }

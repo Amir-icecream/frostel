@@ -9,8 +9,7 @@ class Serve{
         $filepath = realpath($baseDir . DIRECTORY_SEPARATOR . $name);
         if(!$filepath || strpos($filepath, $baseDir) !== 0)
         {
-            http_response_code(403);
-            exit("access denied!!");
+            abort(404);
         }
         $mim = mime_content_type($filepath);
         header("Content-Type: $mim");
@@ -24,8 +23,7 @@ class Serve{
         $filepath = realpath($baseDir . DIRECTORY_SEPARATOR . $name);
         if(!$filepath || strpos($filepath, $baseDir) !== 0)
         {
-            http_response_code(403);
-            exit("access denied!!");
+            abort(404);
         }
         $mim = mime_content_type($filepath);
         header("Content-Type: $mim");
@@ -39,8 +37,7 @@ class Serve{
         $filepath = realpath($baseDir . DIRECTORY_SEPARATOR . $name);
         if(!$filepath || strpos($filepath, $baseDir) !== 0)
         {
-            http_response_code(403);
-            exit("access denied!!");
+            abort(404);
         }
         $mim = mime_content_type($filepath);
         header("Content-Type: $mim");

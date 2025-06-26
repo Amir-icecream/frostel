@@ -25,4 +25,4 @@ else
     Session::Start();
     require_once(__DIR__ . "/../routes/web.php");
 }
-Route::Dispatch(Request::Url(),Request::Method());
+Route::Dispatch(Request::url(),Request::method());
