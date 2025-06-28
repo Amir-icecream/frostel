@@ -6,11 +6,11 @@ class console{
         $help = [
             "\n",
             "hi here is a list of console command that you can use for better experince\n\n",
-            " [0] view-fresh : delte the cache of views\n",
-            " [1] delete-logs : delete the app logs file\n",
-            " [2] make:controller <controller_name> : create a controller file with the given name\n",
-            " [3] make:model <model_name> : create a model file with the given name\n",
-            " [4] help : show this help message\n\n"
+            " [1] view-fresh : delte the cache of views\n",
+            " [2] delete-logs : delete the app logs file\n",
+            " [3] make:controller <controller_name> : create a controller file with the given name\n",
+            " [4] make:model <model_name> : create a model file with the given name\n",
+            " [0] help : show this help message\n\n"
         ];
         foreach ($help as $value) {
             echo($value);
