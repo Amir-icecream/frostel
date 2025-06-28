@@ -3,6 +3,7 @@ use Core\Request;
 use Core\Route;
 use Core\Session;
 use Core\Bootstrap;
+use Core\Error_Handler;
 use Dotenv\Dotenv;
 
 require_once(__DIR__ . "/../vendor/autoload.php");
@@ -15,7 +16,7 @@ try {
 }
 
 Bootstrap::php_configuration();
-Bootstrap::exeption_handeler();
+Error_Handler::exeption_handeler();
 if(Bootstrap::ApiCheck(Request::Url()))
 {
     require_once(__DIR__ . "/../routes/api.php");

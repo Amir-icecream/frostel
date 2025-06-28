@@ -1,0 +1,9 @@
+<?php
+namespace App\Controller;
+
+class {{name}} {
+    public function show()
+    {
+        // Your code here
+    }
+}

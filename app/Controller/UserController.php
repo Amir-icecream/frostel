@@ -1,4 +1,5 @@
 <?php
+namespace App\Controller;
 
 class UserController {
     public function show($id,$name){

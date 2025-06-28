@@ -87,6 +87,7 @@ class ComposerStaticInitee6f4fa099081091d4d75ed1c5426aad
         'C' => 
         array (
             'Core\\' => 5,
+            'Config\\' => 7,
             'Carbon\\Doctrine\\' => 16,
             'Carbon\\' => 7,
         ),
@@ -155,7 +156,7 @@ class ComposerStaticInitee6f4fa099081091d4d75ed1c5426aad
         ),
         'Services\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/Services',
+            0 => __DIR__ . '/../..' . '/services',
         ),
         'Psr\\SimpleCache\\' => 
         array (
@@ -234,7 +235,11 @@ class ComposerStaticInitee6f4fa099081091d4d75ed1c5426aad
         ),
         'Core\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/Core',
+            0 => __DIR__ . '/../..' . '/core',
+        ),
+        'Config\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/config',
         ),
         'Carbon\\Doctrine\\' => 
         array (
@@ -250,7 +255,7 @@ class ComposerStaticInitee6f4fa099081091d4d75ed1c5426aad
         ),
         'App\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/src',
+            0 => __DIR__ . '/../..' . '/app',
         ),
     );
 

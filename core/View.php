@@ -11,7 +11,7 @@ class View{
     public function __construct() {
         $this->patterns = [
             '/@php\s(.*?)@endphp/s'  => '<?php $1 ?>',
-            '/@echo\s+(.*?);/'       => '<?php echo($1); ?>',
+            '/@echo\s+(.*)/' => '<?php echo($1); ?>',
             '/{{\s*(.*?)\s*}}/'      => '<?php echo(htmlspecialchars($1,ENT_QUOTES,"UTF-8")); ?>',
             '/{{!!\s*(.*?)\s*!!}}/'    => '<?php echo($1); ?>',
             '/@if\s*\((.*?)\)/'      => '<?php if($1): ?>',
@@ -22,8 +22,8 @@ class View{
     }
 
     public function compile($view){
-        $this->file = file_get_contents(__DIR__ . "/../resources/view/$view.php");
-        $this->temp_file = __DIR__ . "/../config/cache/view/$view.php";
+        $this->file = file_get_contents(__DIR__ . "/../resources/view/$view.blade.php");
+        $this->temp_file = __DIR__ . "/../storage/framework/view/$view.php";
         if(file_exists($this->temp_file) and $_ENV['CACHE'] === 'true')
         {
             return($this->temp_file);
@@ -37,7 +37,7 @@ class View{
         return($this->temp_file);
     }
     public function render($view,$values = null){
-        if(!file_exists(__DIR__ . "/../resources/view/$view.php"))
+        if(!file_exists(__DIR__ . "/../resources/view/$view.blade.php"))
         {
             throw new Exception("view: $view not found");
         }

@@ -16,20 +16,21 @@ class Loader {
             throw new \Exception("Controller : $controller not Found!!");
         }
         require_once($file);
-        if(!class_exists($controller))
+        $controller_class = "App\\Controller\\$controller";
+        if(!class_exists($controller_class))
         {
-            throw new Exception("controller class: $controller not found!!");
+            throw new Exception("controller class: $controller_class not found!!");
         }
-        if(!method_exists($controller,$action))
+        if(!method_exists($controller_class,$action))
         {
-            throw new Exception("action : $action in class : $controller not found!!");
+            throw new Exception("action : $action in class : $controller_class not found!!");
         }
-        $class = new $controller();
+        $class = new $controller_class();
         return call_user_func_array([$class,$action],array_values($values));
     }
 
     public static function Error($error,$message){
-        $file = __DIR__ . "/../config/errors/error.php";
+        $file = __DIR__ . "/../resources/errors/error_page.php";
         return require_once($file);
     }
 }

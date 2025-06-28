@@ -7,13 +7,26 @@ $command = $argv[1];
 
 switch ($command) {
     case 'help':
+    case '0':
         Console::help();
         break;
     case 'view-fresh':
+    case '1':
         Console::view_fresh();
         break;
     case 'delete-logs':
+    case '2':
         Console::delete_logs();
+        break;
+    case 'make:controller':
+    case '3':
+        $controller_name = $argv[2] ?? null;
+        Console::make_controller($controller_name);
+        break;
+    case 'make:model':
+    case '4':
+        $model_name = $argv[2] ?? null;
+        Console::make_model($model_name);
         break;
     default:
         echo("command: $command not exist use help to show the command list");

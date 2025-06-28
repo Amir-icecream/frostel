@@ -1,9 +1,10 @@
 {
     "autoload": {
         "psr-4": {
-            "App\\": "src/",
+            "App\\": "app/",
             "Core\\": "core/",
-            "Services\\": "services/"
+            "Services\\": "services/",
+            "Config\\": "config/"
         },
         "files": [
             "Core/Helper.php"

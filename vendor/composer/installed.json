@@ -638,17 +638,17 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v12.18.0",
-            "version_normalized": "12.18.0.0",
+            "version": "v12.19.3",
+            "version_normalized": "12.19.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
-                "reference": "e5711846b7c68128bc8de72c13e017606043c996"
+                "reference": "21a206b2b2297e838c181b482b5f8bbe7ac48f61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/collections/zipball/e5711846b7c68128bc8de72c13e017606043c996",
-                "reference": "e5711846b7c68128bc8de72c13e017606043c996",
+                "url": "https://api.github.com/repos/illuminate/collections/zipball/21a206b2b2297e838c181b482b5f8bbe7ac48f61",
+                "reference": "21a206b2b2297e838c181b482b5f8bbe7ac48f61",
                 "shasum": ""
             },
             "require": {
@@ -661,7 +661,7 @@
                 "illuminate/http": "Required to convert collections to API resources (^12.0).",
                 "symfony/var-dumper": "Required to use the dump method (^7.2)."
             },
-            "time": "2025-05-28T13:08:33+00:00",
+            "time": "2025-06-12T14:21:37+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -698,8 +698,8 @@
         },
         {
             "name": "illuminate/conditionable",
-            "version": "v12.18.0",
-            "version_normalized": "12.18.0.0",
+            "version": "v12.19.3",
+            "version_normalized": "12.19.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/conditionable.git",
@@ -747,8 +747,8 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v12.18.0",
-            "version_normalized": "12.18.0.0",
+            "version": "v12.19.3",
+            "version_normalized": "12.19.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -801,17 +801,17 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v12.18.0",
-            "version_normalized": "12.18.0.0",
+            "version": "v12.19.3",
+            "version_normalized": "12.19.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
-                "reference": "152313571553ef1be907a3c18b8ef2d635cb4339"
+                "reference": "ad1d16d827927455d3b7e39fabac66b1afb82582"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/contracts/zipball/152313571553ef1be907a3c18b8ef2d635cb4339",
-                "reference": "152313571553ef1be907a3c18b8ef2d635cb4339",
+                "url": "https://api.github.com/repos/illuminate/contracts/zipball/ad1d16d827927455d3b7e39fabac66b1afb82582",
+                "reference": "ad1d16d827927455d3b7e39fabac66b1afb82582",
                 "shasum": ""
             },
             "require": {
@@ -819,7 +819,7 @@
                 "psr/container": "^1.1.1|^2.0.1",
                 "psr/simple-cache": "^1.0|^2.0|^3.0"
             },
-            "time": "2025-06-09T18:23:03+00:00",
+            "time": "2025-06-12T15:07:31+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -852,17 +852,17 @@
         },
         {
             "name": "illuminate/filesystem",
-            "version": "v12.18.0",
-            "version_normalized": "12.18.0.0",
+            "version": "v12.19.3",
+            "version_normalized": "12.19.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/filesystem.git",
-                "reference": "80fe8605cfa360fdbc85f67c19801a9657615aab"
+                "reference": "a5ec0cc347d46ff4aa3615c7739f321df3183fb7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/filesystem/zipball/80fe8605cfa360fdbc85f67c19801a9657615aab",
-                "reference": "80fe8605cfa360fdbc85f67c19801a9657615aab",
+                "url": "https://api.github.com/repos/illuminate/filesystem/zipball/a5ec0cc347d46ff4aa3615c7739f321df3183fb7",
+                "reference": "a5ec0cc347d46ff4aa3615c7739f321df3183fb7",
                 "shasum": ""
             },
             "require": {
@@ -886,7 +886,7 @@
                 "symfony/filesystem": "Required to enable support for relative symbolic links (^7.2).",
                 "symfony/mime": "Required to enable support for guessing extensions (^7.2)."
             },
-            "time": "2025-05-13T15:08:45+00:00",
+            "time": "2025-06-17T23:40:32+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -922,8 +922,8 @@
         },
         {
             "name": "illuminate/macroable",
-            "version": "v12.18.0",
-            "version_normalized": "12.18.0.0",
+            "version": "v12.19.3",
+            "version_normalized": "12.19.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -971,17 +971,17 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v12.18.0",
-            "version_normalized": "12.18.0.0",
+            "version": "v12.19.3",
+            "version_normalized": "12.19.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "3c3894ba09a86663b747efaa6822639f1c32ea01"
+                "reference": "4e5d098d1cdbf5cabff09c1903a141bd9747ae75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/3c3894ba09a86663b747efaa6822639f1c32ea01",
-                "reference": "3c3894ba09a86663b747efaa6822639f1c32ea01",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/4e5d098d1cdbf5cabff09c1903a141bd9747ae75",
+                "reference": "4e5d098d1cdbf5cabff09c1903a141bd9747ae75",
                 "shasum": ""
             },
             "require": {
@@ -1014,7 +1014,7 @@
                 "symfony/var-dumper": "Required to use the dd function (^7.2).",
                 "vlucas/phpdotenv": "Required to use the Env class and env helper (^5.6.1)."
             },
-            "time": "2025-06-06T18:15:26+00:00",
+            "time": "2025-06-12T15:07:56+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1170,17 +1170,17 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "3.10.0",
-            "version_normalized": "3.10.0.0",
+            "version": "3.10.1",
+            "version_normalized": "3.10.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CarbonPHP/carbon.git",
-                "reference": "c1397390dd0a7e0f11660f0ae20f753d88c1f3d9"
+                "reference": "1fd1935b2d90aef2f093c5e35f7ae1257c448d00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CarbonPHP/carbon/zipball/c1397390dd0a7e0f11660f0ae20f753d88c1f3d9",
-                "reference": "c1397390dd0a7e0f11660f0ae20f753d88c1f3d9",
+                "url": "https://api.github.com/repos/CarbonPHP/carbon/zipball/1fd1935b2d90aef2f093c5e35f7ae1257c448d00",
+                "reference": "1fd1935b2d90aef2f093c5e35f7ae1257c448d00",
                 "shasum": ""
             },
             "require": {
@@ -1206,7 +1206,7 @@
                 "phpunit/phpunit": "^10.5.46",
                 "squizlabs/php_codesniffer": "^3.13.0"
             },
-            "time": "2025-06-12T10:24:28+00:00",
+            "time": "2025-06-21T15:19:35+00:00",
             "bin": [
                 "bin/carbon"
             ],

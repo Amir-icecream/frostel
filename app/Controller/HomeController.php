@@ -1,8 +1,11 @@
 <?php
+namespace App\Controller;
+
+use App\Model\UserModel;
 
 class HomeController{
     public function show(){
-        $a = ['amir'=>10];
-        return view('home',10);   
+        $user = new UserModel();
+        return view('home');
     }
 }
