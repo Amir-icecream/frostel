@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 
-class {{name}} {
+class {{class}} {
     public function show()
     {
         // Your code here

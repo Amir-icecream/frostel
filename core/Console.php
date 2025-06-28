@@ -38,7 +38,7 @@ class console{
                 return false;
             }
             $template = file_get_contents($template_dir);
-            $template = str_replace('{{name}}', $controller_name, $template);
+            $template = str_replace('{{class}}', $controller_name, $template);
             file_put_contents($output_dir, $template);
             echo("controller file created successfully\n");
         } catch (\Throwable $th) {
@@ -67,7 +67,7 @@ class console{
                 return false;
             }
             $template = file_get_contents($template_dir);
-            $template = str_replace('{{name}}', $model_name, $template);
+            $template = str_replace('{{class}}', $model_name, $template);
             file_put_contents($output_dir, $template);
             echo("model file created successfully\n");
         } catch (\Throwable $th) {
