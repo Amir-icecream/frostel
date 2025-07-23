@@ -5,12 +5,14 @@ class SmsServices{
     private $apikey;
     private $number;
 
+    public $status;
+
     public function __construct() {
         $this->apikey = $_ENV['SMS_X_API_KEY'];
         $this->number = $_ENV['SMS_NUMBER'];
     }
 
-    public function send(string  $text , $numbers){
+    public function send(string  $text ,string $numbers){
         if(!is_array($numbers))
         {
             $numbers = [$numbers];
@@ -50,7 +52,8 @@ class SmsServices{
             return 'Curl Error: ' . $error_message;
         }
         
-        return json_decode($response);
-        
+        $result = json_decode($response);
+        $this->status = $result->status;
+        return $this->status;
     }
 }

@@ -1,5 +1,7 @@
 <?php
 namespace Core;
+
+use ArrayObject;
 use Config\Database;
 class Model extends Database{
     private $table = null;
@@ -7,9 +9,11 @@ class Model extends Database{
     private $parameters = [];
     private $param_count = 0;
     private $allowed_operations = ['=', '!=', '<', '>', '<=', '>=', 'LIKE', 'IS NULL', 'IS NOT NULL'];
+    private $query_type = null;
     private $safe = true; 
     protected $sanitized = [];
     protected $output = [];
+
     public function __construct() {
         $model_path = get_called_class();
         $pathes = explode('\\',$model_path);
@@ -27,15 +31,19 @@ class Model extends Database{
     public function set_query_type($type){
         switch (strtoupper($type)) {
             case 'READ':
+                $this->query_type = 'READ';
                 $this->sql = 'SELECT * FROM ' . $this->table . $this->sql;
                 break;
             case 'CREATE':
+                $this->query_type = 'CREATE';
                 $this->sql = 'INSERT INTO ' . $this->table;
                 break;
             case 'UPDATE':
+                $this->query_type = 'UPDATE';
                 $this->sql = 'UPDATE ' . $this->table . ' SET ' . $this->sql;
                 break;
             case 'DELETE':
+                $this->query_type = 'DELETE';
                 $this->sql = 'DELETE FROM ' . $this->table . $this->sql;
                 break;
             default:
@@ -44,15 +52,20 @@ class Model extends Database{
         return;
     }
     public function select(array $coulmns){
+        $this->set_query_type('READ');
         if(!is_array($coulmns) or count($coulmns) === 0 or empty($this->sql)){
             return;
         }
-        $coulmns = implode(',', array_map(function($col) {
-            return preg_replace('/[^a-zA-Z0-9()_.*]/', '', $col);
-        }, $coulmns));
-        $this->sql = preg_replace('/SELECT\s+\*\s+FROM/i',"SELECT $coulmns FROM",$this->sql);
+        if(count($coulmns) > 1)
+        {
+            $coulmns = implode(',', array_map(function($col) {
+                return preg_replace('/[^a-zA-Z0-9()_.*]/', '', $col);
+            }, $coulmns));
+            $this->sql = preg_replace('/SELECT\s+\*\s+FROM/i',"SELECT $coulmns FROM",$this->sql);
+        }
         return $this;
     }
+    
     //conditions
     public function where($col,$operation,$param){
         if(in_array($operation , $this->allowed_operations) === false){
@@ -78,6 +91,7 @@ class Model extends Database{
         $this->sql .= " AND $col $operation :$param_name ";
         return $this;
     }
+
     //read
     public function find($id){
         $param_name = $this->add_parameter($id);
@@ -94,7 +108,7 @@ class Model extends Database{
     }
     public function all(){
         $this->set_query_type('READ');
-        return $this->execute();
+        return $this;
     }
     //create update delete
     public function update(array $data = [] , $safe = true){
@@ -151,16 +165,87 @@ class Model extends Database{
         $this->sql .= ' OFFSET ' . (int)$offset;
         return $this;
     }
-    //run the query
-    public function get(){
-        $this->set_query_type('read');
-        return $this->execute();
+    public function groupBy(array $field , $aggregate = 'MAX'){
+        if(preg_match('/^SELECT\s*\*\s*FROM/',$this->sql)){
+            $result = $this->querybuilder('SHOW COLUMNS FROM ' . $this->table);
+            $coulmns = array();
+            foreach ($result as $key => $value) {
+                array_push($coulmns , $value['Field']);
+            }
+            foreach ($coulmns as $key => $value) {
+                if(!in_array($value, $field)){
+                    $coulmns[$key] = strtoupper($aggregate) . '(' . $value . ') AS ' . $value;
+                }
+            }
+
+            $this->sql = preg_replace_callback('/\*/',function() use ($coulmns) {
+                return implode(',', $coulmns);
+            },$this->sql);
+
+            $this->sql .= ' GROUP BY ' . implode(',', $field);
+        }
+        else{
+            preg_match('/^SELECT\s([A-Za-z0-9_.,]*)\sFROM/', $this->sql, $matches);
+            array_shift($matches);
+            $coulmns = explode(',', $matches[0]);
+
+            foreach ($coulmns as $key => $value) {
+                if(!in_array($value, $field)){
+                    $coulmns[$key] = strtoupper($aggregate) . '(' . $value . ') AS ' . $value;
+                }
+            }
+
+            $this->sql = preg_replace_callback('/'. $matches[0] .'/',function() use ($coulmns) {
+                return implode(',', $coulmns);
+            },$this->sql);
+            $this->sql .= ' GROUP BY ' . implode(',', $field);
+        }
+        return $this; 
     }
+
+    /**
+     * you can create and run custom query with this method.
+     * connection method is PDO. 
+     * @warning This method is not safe be carefull while using it.
+     */
+    public function querybuilder($query , $parameters = []){
+        $this->sanitized = [];
+        $this->output = [];
+        preg_match_all('/:([a-zA-Z0-9_.]+)/', $query, $matches);
+        $matches = $matches[0];
+        $db = new Database;
+        $db->transaction(function($db) use ($query, $parameters, $matches){
+            $statement = $db->prepare($query);
+            foreach ($matches as $key => $value) {
+                if(isset($parameters[$key])){
+                    $statement->bindValue($value, $parameters[$key]);
+                } else {
+                    throw new \Exception("Missing parameter for placeholder: $value");
+                }
+            }
+            $statement->execute();
+            $result = $statement->fetchAll();
+            foreach ($result as $row) {
+                foreach ($row as $key => $value) {
+                    $this->sanitized[$key] = htmlspecialchars($value ?? '' ,ENT_QUOTES,'UTF-8');                    
+                }
+                $this->output[] = $this->sanitized;
+            }
+        });
+        return $this->output;
+    }
+
+    /**
+    * this mthod run the query. 
+    */
     public function run(){
         return $this->execute();
     }
     private function execute(){
-        if($this->safe and !str_contains(strtoupper($this->sql),'WHERE')){
+        $this->sanitized = [];
+        $this->output = [];
+
+        if($this->safe and !str_contains(strtoupper($this->sql),'WHERE') and ($this->query_type !== 'READ' and $this->query_type !== 'DELETE') ){
             throw new \Exception("Unsafe operation detected. Please use 'where' method to specify conditions before executing the query.");
         }
         $db = new Database;
@@ -183,7 +268,8 @@ class Model extends Database{
         $this->sql = null;
         $this->parameters = [];
         $this->param_count = 0;
-        return json_encode($this->output , true);
+        return $this->output;
         
     }
+
 }
