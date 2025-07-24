@@ -95,7 +95,7 @@ class Model extends Database{
     //read
     public function find($id){
         $param_name = $this->add_parameter($id);
-        $this->sql .= ' WHERE ID = :' . $param_name;
+        $this->sql .= ' WHERE id = :' . $param_name;
         $this->set_query_type('READ');
         return $this->execute();
     }
@@ -166,7 +166,7 @@ class Model extends Database{
         return $this;
     }
     public function groupBy(array $field , $aggregate = 'MAX'){
-        if(preg_match('/^SELECT\s*\*\s*FROM/',$this->sql)){
+        if(preg_match('/^SELECT\s*\*\s*FROM/i',$this->sql)){
             $result = $this->querybuilder('SHOW COLUMNS FROM ' . $this->table);
             $coulmns = array();
             foreach ($result as $key => $value) {
@@ -185,7 +185,7 @@ class Model extends Database{
             $this->sql .= ' GROUP BY ' . implode(',', $field);
         }
         else{
-            preg_match('/^SELECT\s([A-Za-z0-9_.,]*)\sFROM/', $this->sql, $matches);
+            preg_match('/^SELECT\s([A-Za-z0-9_.,]*)\sFROM/i', $this->sql, $matches);
             array_shift($matches);
             $coulmns = explode(',', $matches[0]);
 
@@ -204,6 +204,21 @@ class Model extends Database{
     }
 
     /**
+     * This method is used to join two tables.
+     * @param string $table The name of the table to join.
+     * @param string $primary_key_field The primary key field of the current table.
+     * @param string $Foreign_key_field The foreign key field of the table to join.
+     * @param string $type The type of join (default is 'LEFT').
+     * @warning tables most have relation before using this method.
+     */
+    public function join(string $table,string $primary_key_field,string $Foreign_key_field,string $type = 'LEFT'){
+        $type = strtoupper($type);
+        $this->sql .= " $type JOIN $table ON $table.$Foreign_key_field" . " = $this->table.$primary_key_field";
+        return $this;
+    }
+
+
+    /**
      * you can create and run custom query with this method.
      * connection method is PDO. 
      * @warning This method is not safe be carefull while using it.
@@ -211,7 +226,7 @@ class Model extends Database{
     public function querybuilder($query , $parameters = []){
         $this->sanitized = [];
         $this->output = [];
-        preg_match_all('/:([a-zA-Z0-9_.]+)/', $query, $matches);
+        preg_match_all('/:([a-zA-Z0-9_.]+)/i', $query, $matches);
         $matches = $matches[0];
         $db = new Database;
         $db->transaction(function($db) use ($query, $parameters, $matches){
@@ -250,7 +265,11 @@ class Model extends Database{
         }
         $db = new Database;
         $db->transaction(function($db){
-            $statement = $db->prepare($this->sql);
+            try {
+                $statement = $db->prepare($this->sql);
+            } catch (\Throwable $th) {
+                throw new \Exception("Syntax error in SQL query: " . $th->getMessage() . ' SQL: ' . $this->sql);
+            }
             foreach ($this->parameters as $key => $value) {
                 $statement->bindValue($key,$value);
             }
