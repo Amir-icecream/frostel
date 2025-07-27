@@ -406,6 +406,18 @@ class Str
     }
 
     /**
+     * Determine if a given string doesn't end with a given substring.
+     *
+     * @param  string  $haystack
+     * @param  string|iterable<string>  $needles
+     * @return bool
+     */
+    public static function doesntEndWith($haystack, $needles)
+    {
+        return ! static::endsWith($haystack, $needles);
+    }
+
+    /**
      * Extracts an excerpt from text that matches the first instance of a phrase.
      *
      * @param  string  $text
@@ -1437,7 +1449,7 @@ class Str
      */
     public static function headline($value)
     {
-        $parts = explode(' ', $value);
+        $parts = mb_split('\s+', $value);
 
         $parts = count($parts) > 1
             ? array_map(static::title(...), $parts)
@@ -1470,7 +1482,7 @@ class Str
 
         $endPunctuation = ['.', '!', '?', ':', '—', ','];
 
-        $words = preg_split('/\s+/', $value, -1, PREG_SPLIT_NO_EMPTY);
+        $words = mb_split('\s+', $value);
 
         for ($i = 0; $i < count($words); $i++) {
             $lowercaseWord = mb_strtolower($words[$i]);
@@ -1660,6 +1672,18 @@ class Str
     }
 
     /**
+     * Determine if a given string doesn't start with a given substring.
+     *
+     * @param  string  $haystack
+     * @param  string|iterable<string>  $needles
+     * @return bool
+     */
+    public static function doesntStartWith($haystack, $needles)
+    {
+        return ! static::startsWith($haystack, $needles);
+    }
+
+    /**
      * Convert a value to studly caps case.
      *
      * @param  string  $value
@@ -1673,7 +1697,7 @@ class Str
             return static::$studlyCache[$key];
         }
 
-        $words = explode(' ', static::replace(['-', '_'], ' ', $value));
+        $words = mb_split('\s+', static::replace(['-', '_'], ' ', $value));
 
         $studlyWords = array_map(fn ($word) => static::ucfirst($word), $words);
 
