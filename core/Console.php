@@ -25,7 +25,7 @@ class console{
                 return false;
             }
 
-            $template_dir = __DIR__ . '/../templates/controller/default.stub';
+            $template_dir = realpath(__DIR__ . '/../templates/controller/default.stub');
             $output_dir = __DIR__ . '/../app/Controller/' . $controller_name . '.php';
 
             if(!is_dir(__DIR__ . '/../app/Controller/'))
@@ -54,7 +54,7 @@ class console{
                 return false;
             }
 
-            $template_dir = __DIR__ . '/../templates/model/default.stub';
+            $template_dir = realpath(__DIR__ . '/../templates/model/default.stub');
             $output_dir = __DIR__ . '/../app/Model/' . $model_name . '.php';
 
             if(!is_dir(__DIR__ . '/../app/Model/'))

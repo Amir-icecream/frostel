@@ -2,4 +2,4 @@
 
 use Core\Route;
 
-Route::get('/api','userController@show');
+Route::post('/api/telegrambots/frostel','botController@process');
