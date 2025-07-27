@@ -13,8 +13,12 @@
     "name": "amir-icecream/frostel",
     "description": "A simple MVC framework",
     "license": "GPL-3.0",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "type": "project",
     "require": {
         "vlucas/phpdotenv": "^5.6",
-        "hekmatinasser/verta": "^8.5"
+        "hekmatinasser/verta": "^8.5",
+        "php": "^8.2.0"
     }
 }
