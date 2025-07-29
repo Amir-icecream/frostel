@@ -23,7 +23,7 @@ if(Bootstrap::ApiCheck(Request::Url()))
 }
 else
 {
-    Session::Start();
+    Session::start();
     require_once(__DIR__ . "/../routes/web.php");
 }
 Route::Dispatch(Request::url(),Request::method());

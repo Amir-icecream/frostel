@@ -28,6 +28,13 @@ function abort($Error){
     }
 }
 
+function respons(string $message = 'ok',int $code = 200){
+    http_response_code($code);
+    header('Content-Type: application/json');
+    echo json_encode(['message' => $message, 'code' => $code]);
+    exit;
+}
+
 function view($view , $values = []){
     $view_loader = new View;
     return $view_loader->render($view,$values);

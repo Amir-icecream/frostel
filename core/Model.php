@@ -56,7 +56,7 @@ class Model extends Database{
         if(!is_array($coulmns) or count($coulmns) === 0 or empty($this->sql)){
             return;
         }
-        if(count($coulmns) > 1)
+        if(count($coulmns) > 0)
         {
             $coulmns = implode(',', array_map(function($col) {
                 return preg_replace('/[^a-zA-Z0-9()_.*]/', '', $col);
@@ -125,7 +125,7 @@ class Model extends Database{
         $this->sql = rtrim($this->sql, ',');
         return $this;
     }
-    public function create(array $data = [] , $safe = true){
+    public function create(array $data = [] , $safe = false){
         $this->safe = $safe;
         if(!count($data))
         {

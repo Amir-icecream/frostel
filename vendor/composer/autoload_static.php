@@ -41,16 +41,24 @@ class ComposerStaticInitee6f4fa099081091d4d75ed1c5426aad
             'Symfony\\Polyfill\\Intl\\Idn\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Contracts\\Translation\\' => 30,
+            'Symfony\\Contracts\\Service\\' => 26,
+            'Symfony\\Contracts\\HttpClient\\' => 29,
+            'Symfony\\Contracts\\EventDispatcher\\' => 34,
             'Symfony\\Component\\Translation\\' => 30,
             'Symfony\\Component\\Mime\\' => 23,
+            'Symfony\\Component\\Mailer\\' => 25,
             'Symfony\\Component\\HttpFoundation\\' => 33,
+            'Symfony\\Component\\HttpClient\\' => 29,
             'Symfony\\Component\\Finder\\' => 25,
+            'Symfony\\Component\\EventDispatcher\\' => 34,
             'Symfony\\Component\\Clock\\' => 24,
             'Services\\' => 9,
         ),
         'P' => 
         array (
             'Psr\\SimpleCache\\' => 16,
+            'Psr\\Log\\' => 8,
+            'Psr\\EventDispatcher\\' => 20,
             'Psr\\Container\\' => 14,
             'Psr\\Clock\\' => 10,
             'PhpOption\\' => 10,
@@ -134,6 +142,18 @@ class ComposerStaticInitee6f4fa099081091d4d75ed1c5426aad
         array (
             0 => __DIR__ . '/..' . '/symfony/translation-contracts',
         ),
+        'Symfony\\Contracts\\Service\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/service-contracts',
+        ),
+        'Symfony\\Contracts\\HttpClient\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/http-client-contracts',
+        ),
+        'Symfony\\Contracts\\EventDispatcher\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/event-dispatcher-contracts',
+        ),
         'Symfony\\Component\\Translation\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/translation',
@@ -142,13 +162,25 @@ class ComposerStaticInitee6f4fa099081091d4d75ed1c5426aad
         array (
             0 => __DIR__ . '/..' . '/symfony/mime',
         ),
+        'Symfony\\Component\\Mailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/mailer',
+        ),
         'Symfony\\Component\\HttpFoundation\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/http-foundation',
         ),
+        'Symfony\\Component\\HttpClient\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/http-client',
+        ),
         'Symfony\\Component\\Finder\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/finder',
+        ),
+        'Symfony\\Component\\EventDispatcher\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/event-dispatcher',
         ),
         'Symfony\\Component\\Clock\\' => 
         array (
@@ -161,6 +193,14 @@ class ComposerStaticInitee6f4fa099081091d4d75ed1c5426aad
         'Psr\\SimpleCache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/simple-cache/src',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/src',
+        ),
+        'Psr\\EventDispatcher\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/event-dispatcher/src',
         ),
         'Psr\\Container\\' => 
         array (
