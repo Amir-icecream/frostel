@@ -3,3 +3,4 @@
 use Core\Route;
 
 Route::post('/api/telegrambots/frostel','botController@process');
+Route::get('/api/telegrambots/frostel','botController@process');

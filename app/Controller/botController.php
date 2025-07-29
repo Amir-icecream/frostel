@@ -3,7 +3,7 @@ namespace App\Controller;
 
 use CURLFile;
 use Exception;
-use Services\TelegramEndPoints;
+use Config\TelegramEndPoints;
 use Services\TelegramServices; 
 
 class botController {
@@ -19,8 +19,9 @@ class botController {
     public function process()
     {
         $telegram = new TelegramServices();
-        $telegram->run(function($update) use ($telegram) {
-            $update = $telegram->getUpdate();
+        $telegram->run(function() use ($telegram) {
+            // $telegram->handleUpdate();
+            // $update = $telegram->getUpdate();
             
             // $messageType = $telegram->detectMessageType($update);
             // $fileID = $telegram->getFileId($update, $messageType);
@@ -28,14 +29,15 @@ class botController {
 
             $chatId = $update["message"]["chat"]["id"] ?? null;
             $userText = $update["message"]["text"] ?? "";
-
+            $chatId = -1002268939731;
+            $userId = 7166464236; 
             $data = [
                 "chat_id" => $chatId,
-                'photo' => new CURLFile(__DIR__ .'/h.png'),
-                'caption' => 'This is a test message',
+                'photo' => new CURLFile(__DIR__ . '/../../storage/file/img/h.png'),
             ];
 
             $result = $telegram->send($data,TelegramEndPoints::sendPhoto());
+            file_put_contents(__DIR__ . '/../../storage/logs/TelegramBot.log', print_r(json_decode($result), true));
         });
 
 

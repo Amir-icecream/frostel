@@ -3,7 +3,7 @@
         'name' => 'amir-icecream/frostel',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'e1ef0969db19aebb780730c207c3144ab5c341b9',
+        'reference' => '48fd2542cd56e2a768a54cd40098f617ee03cacc',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'amir-icecream/frostel' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'e1ef0969db19aebb780730c207c3144ab5c341b9',
+            'reference' => '48fd2542cd56e2a768a54cd40098f617ee03cacc',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

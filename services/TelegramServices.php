@@ -2,6 +2,7 @@
 namespace Services;
 
 use Exception;
+use Config\TelegramEndPoints;
 
 class TelegramServices{
     public $botToken;
@@ -18,16 +19,15 @@ class TelegramServices{
 
     public function run(callable $func){
         try {
-            $this->handleUpdate();
-            return $func($this->update);
+            return $func();
         } catch (\Exception $e) {
+            error_log($e->getMessage());
             respons($e->getMessage(),500);
-
         }
            
     }
 
-    private function handleUpdate()
+    public function handleUpdate()
     {
         $update = json_decode(file_get_contents("php://input"),true);
         if(isset($update['message']) && is_array($update['message'])){
@@ -35,6 +35,7 @@ class TelegramServices{
             return true;
         } else {
             $this->update = [];
+            error_log("Invalid update format received from Telegram.");
             throw new \Exception("Invalid update format received from Telegram.");
         }
     }
@@ -44,6 +45,7 @@ class TelegramServices{
         if(isset($this->update) && !empty($this->update)){
             return $this->update;
         }else{
+            error_log("No update available. Please call handleUpdate() first.");
             throw new \Exception("No update available. Please call handleUpdate() first.");
         }
     }
@@ -105,7 +107,6 @@ class TelegramServices{
      */
     public function send(array $data,string $endPoint)
     {
-        // send respound to request
         $curl = curl_init();
         curl_setopt($curl,CURLOPT_URL,$endPoint);
         curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
@@ -115,6 +116,7 @@ class TelegramServices{
         $result = curl_exec($curl);
 
         if ($result === false) {
+            error_log(curl_error($curl));
             throw new \Exception("cURL Error: " . curl_error($curl));
         }
         
@@ -128,8 +130,7 @@ class TelegramServices{
      * get data from telegram
      */
     public function get(array $data,string $endPoint){
-        $endPoint = $endPoint . http_build_query($data);
-
+        $endPoint = $endPoint . '?' . http_build_query($data);
         $curl = curl_init();
         curl_setopt($curl,CURLOPT_URL,$endPoint);
         curl_setopt($curl,CURLOPT_HTTPGET,true);
@@ -137,7 +138,8 @@ class TelegramServices{
 
         $result = curl_exec($curl);
 
-        if ($result === false) {
+        if ($result === false) {            
+            error_log(curl_error($curl));
             throw new \Exception("cURL Error: " . curl_error($curl));
         }
         
@@ -173,34 +175,5 @@ class TelegramServices{
             return($fileName);
         }
         return false;
-    }
-}
-
-
-class TelegramEndPoints{
-    private static $botToken;
-
-    private static function init() {
-        if(!self::$botToken)
-        {
-            self::$botToken = $_ENV['TELEGRAM_BOT_TOKEN'] ?? '';
-        }
-    }
-    //sending endpoints
-    public static function sendMessage()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/sendMessage";
-    }
-    public static function sendPhoto()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/sendPhoto";
-    }
-
-    //receiving endpoints
-    public static function getFile(){
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/getFile?file_id=";
     }
 }
