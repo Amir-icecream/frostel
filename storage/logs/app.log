@@ -7,3 +7,48 @@
 #5 C:\laragon\www\Frostel\core\Bootstrap.php(54): Core\Route::dispatch('/user/2/amir', 'get')
 #6 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
 #7 {main}
+[30-Jul-2025 23:02:11 UTC] Uncaught Exception: middleware : a not found
+#0 C:\laragon\www\Frostel\core\Route.php(87): Core\Middleware::handel('a')
+#1 C:\laragon\www\Frostel\core\Bootstrap.php(54): Core\Route::dispatch('/', 'get')
+#2 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
+#3 {main}
+[30-Jul-2025 23:02:11 UTC] Uncaught Exception: middleware : a not found
+#0 C:\laragon\www\Frostel\core\Route.php(87): Core\Middleware::handel('a')
+#1 C:\laragon\www\Frostel\core\Bootstrap.php(54): Core\Route::dispatch('/', 'get')
+#2 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
+#3 {main}
+[30-Jul-2025 23:02:11 UTC] Uncaught Exception: middleware : a not found
+#0 C:\laragon\www\Frostel\core\Route.php(87): Core\Middleware::handel('a')
+#1 C:\laragon\www\Frostel\core\Bootstrap.php(54): Core\Route::dispatch('/', 'get')
+#2 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
+#3 {main}
+[30-Jul-2025 23:02:12 UTC] Uncaught Exception: middleware : a not found
+#0 C:\laragon\www\Frostel\core\Route.php(87): Core\Middleware::handel('a')
+#1 C:\laragon\www\Frostel\core\Bootstrap.php(54): Core\Route::dispatch('/', 'get')
+#2 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
+#3 {main}
+[30-Jul-2025 23:02:26 UTC] Uncaught Exception: middleware : AccessMiddleware not found
+#0 C:\laragon\www\Frostel\core\Route.php(87): Core\Middleware::handel('AccessMiddlewar...')
+#1 C:\laragon\www\Frostel\core\Bootstrap.php(54): Core\Route::dispatch('/', 'get')
+#2 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
+#3 {main}
+[30-Jul-2025 23:02:26 UTC] Uncaught Exception: middleware : AccessMiddleware not found
+#0 C:\laragon\www\Frostel\core\Route.php(87): Core\Middleware::handel('AccessMiddlewar...')
+#1 C:\laragon\www\Frostel\core\Bootstrap.php(54): Core\Route::dispatch('/', 'get')
+#2 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
+#3 {main}
+[30-Jul-2025 23:02:26 UTC] Uncaught Exception: middleware : AccessMiddleware not found
+#0 C:\laragon\www\Frostel\core\Route.php(87): Core\Middleware::handel('AccessMiddlewar...')
+#1 C:\laragon\www\Frostel\core\Bootstrap.php(54): Core\Route::dispatch('/', 'get')
+#2 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
+#3 {main}
+[30-Jul-2025 23:02:37 UTC] Uncaught Exception: middleware : d not found
+#0 C:\laragon\www\Frostel\core\Route.php(87): Core\Middleware::handel('d')
+#1 C:\laragon\www\Frostel\core\Bootstrap.php(54): Core\Route::dispatch('/', 'get')
+#2 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
+#3 {main}
+[30-Jul-2025 23:02:37 UTC] Uncaught Exception: middleware : d not found
+#0 C:\laragon\www\Frostel\core\Route.php(87): Core\Middleware::handel('d')
+#1 C:\laragon\www\Frostel\core\Bootstrap.php(54): Core\Route::dispatch('/', 'get')
+#2 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
+#3 {main}

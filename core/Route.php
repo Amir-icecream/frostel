@@ -86,7 +86,7 @@ class Route extends Middleware{
                         foreach (self::$middlewares[$method][$route] as $key => $value) {
                             if(!Middleware::handel($value))
                             {
-                                abort(406);
+                                abort(403);
                             }
                         }
                     }
