@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>home</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/resource/css/style.css">
 </head>
 <body class="bg-neutral-800 dark:text-white" >
     <form action="/form" method="post" enctype="multipart/form-data">
@@ -13,6 +13,7 @@
         <input type="file" name="images[]" multiple>
         <input type="submit" value="submit">
     </form>
+    <script src="/resource/js/app.js"></script>
 </body>
 </html>
 

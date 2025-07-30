@@ -20,7 +20,7 @@ class Error_Handler{
             if (!self::$show_errors) {
                 abort(500);
             } else {
-                require_once(__DIR__ . '/../resources/errors/error_handler.php');
+                require_once(__DIR__ . '/../resource/errors/error_handler.php');
             }
             error_log("Uncaught Exception: " . $e->getMessage() . "\n" . $e->getTraceAsString());
         });

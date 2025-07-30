@@ -61,7 +61,7 @@ class Route extends Middleware{
         return self::class;
     }
     
-    public static function Dispatch($url,$method){
+    public static function dispatch($url,$method){
         $values = array();
 
         $method = strtolower($method);

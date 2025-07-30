@@ -1,168 +1,67 @@
 <?php
 namespace Config;
 
+use Exception;
+
 class TelegramEndPoints{
     private static $botToken;
+    private static $endPoints;
 
     private static function init() {
         if(!self::$botToken)
         {
             self::$botToken = $_ENV['TELEGRAM_BOT_TOKEN'] ?? '';
         }
-    }
-    //sending endpoints
-    public static function sendMessage()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/sendMessage";
-    }
-    public static function sendPhoto()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/sendPhoto";
-    }
-    public static function sendAudio()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/sendAudio";
-    }
-    public static function sendDocument()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/sendDocument";
-    }
-    public static function sendVideo()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/sendVideo";
-    }
-    public static function sendAnimation()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/sendAnimation";
-    }
-    public static function sendVoice()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/sendVoice";
-    }
-    public static function sendVideoNote()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/sendVideoNote";
-    }
-    public static function sendMediaGroup()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/sendMediaGroup";
-    }
-    public static function sendLocation()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/sendLocation";
-    }
-    public static function sendVenue()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/sendVenue";
-    }
-    public static function sendContact()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/sendContact";
-    }
-    public static function editMessageText()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/editMessageText";
-    }
-    public static function deleteMessage()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/deleteMessage";
-    }
-    public static function setWebhook()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/setWebhook";
-    }
-    public static function deleteWebhook()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/deleteWebhook";
-    }
-    public static function kickChatMember()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/kickChatMember";
-    }
-    public static function unbanChatMember()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/unbanChatMember";
-    }
-    public static function restrictChatMember()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/restrictChatMember";
-    }
-    public static function promoteChatMember()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/promoteChatMember";
-    }
-    public static function answerCallbackQuery()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/answerCallbackQuery";
-    }
-    public static function answerInlineQuery()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/answerInlineQuery";
-    }
-    public static function sendDice()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/sendDice";
+
+        self::$endPoints = [
+            // sending endpoints
+            'sendMessage'           => "https://api.telegram.org/bot" . self::$botToken . "/sendMessage",
+            'sendPhoto'             => "https://api.telegram.org/bot" . self::$botToken . "/sendPhoto",
+            'sendAudio'             => "https://api.telegram.org/bot" . self::$botToken . "/sendAudio",
+            'sendDocument'          => "https://api.telegram.org/bot" . self::$botToken . "/sendDocument",
+            'sendVideo'             => "https://api.telegram.org/bot" . self::$botToken . "/sendVideo",
+            'sendAnimation'         => "https://api.telegram.org/bot" . self::$botToken . "/sendAnimation",
+            'sendVoice'             => "https://api.telegram.org/bot" . self::$botToken . "/sendVoice",
+            'sendVideoNote'         => "https://api.telegram.org/bot" . self::$botToken . "/sendVideoNote",
+            'sendMediaGroup'        => "https://api.telegram.org/bot" . self::$botToken . "/sendMediaGroup",
+            'sendLocation'          => "https://api.telegram.org/bot" . self::$botToken . "/sendLocation",
+            'sendVenue'             => "https://api.telegram.org/bot" . self::$botToken . "/sendVenue",
+            'sendContact'           => "https://api.telegram.org/bot" . self::$botToken . "/sendContact",
+            'editMessageText'       => "https://api.telegram.org/bot" . self::$botToken . "/editMessageText",
+            'deleteMessage'         => "https://api.telegram.org/bot" . self::$botToken . "/deleteMessage",
+            'setWebhook'            => "https://api.telegram.org/bot" . self::$botToken . "/setWebhook",
+            'deleteWebhook'         => "https://api.telegram.org/bot" . self::$botToken . "/deleteWebhook",
+            'kickChatMember'        => "https://api.telegram.org/bot" . self::$botToken . "/kickChatMember",
+            'unbanChatMember'       => "https://api.telegram.org/bot" . self::$botToken . "/unbanChatMember",
+            'restrictChatMember'    => "https://api.telegram.org/bot" . self::$botToken . "/restrictChatMember",
+            'promoteChatMember'     => "https://api.telegram.org/bot" . self::$botToken . "/promoteChatMember",
+            'answerCallbackQuery'   => "https://api.telegram.org/bot" . self::$botToken . "/answerCallbackQuery",
+            'answerInlineQuery'     => "https://api.telegram.org/bot" . self::$botToken . "/answerInlineQuery",
+            'sendDice'              => "https://api.telegram.org/bot" . self::$botToken . "/sendDice",
+            // receiving endpoints
+            'getFile'               => "https://api.telegram.org/bot" . self::$botToken . "/getFile?",
+            'getMe'                 => "https://api.telegram.org/bot" . self::$botToken . "/getMe",
+            'getUpdates'            => "https://api.telegram.org/bot" . self::$botToken . "/getUpdates?",
+            'getWebhookInfo'        => "https://api.telegram.org/bot" . self::$botToken . "/getWebhookInfo?",
+            'getChat'               => "https://api.telegram.org/bot" . self::$botToken . "/getChat?",
+            'getChatAdministrators' => "https://api.telegram.org/bot" . self::$botToken . "/getChatAdministrators?",
+            'getChatMembersCount'   => "https://api.telegram.org/bot" . self::$botToken . "/getChatMembersCount?",
+            'getChatMember'         => "https://api.telegram.org/bot" . self::$botToken . "/getChatMember?",
+            
+        ];
     }
 
+    public static function __callStatic($name, $arguments)
+    {
+        self::init();
+        if(!is_array(self::$endPoints) && empty(self::$endPoints) && !in_array($name,self::$endPoints))
+        {
+            error_log("function: {$name} not found in TelegramEndPoints");
+            throw new Exception("function: {$name} not found in TelegramEndPoints");
+        }
 
-    //receiving endpoints
-    public static function getFile(){
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/getFile?file_id=";
+        $endPoint = self::$endPoints[$name];
+        return $endPoint;
     }
-    public static function getMe(){
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/getMe";
-    }
-    public static function getUpdates(){
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/getUpdates";
-    }
-    public static function getWebhookInfo(){
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/getWebhookInfo";
-    }
-    public static function getChat()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/getChat";
-    }
-    public static function getChatAdministrators()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/getChatAdministrators";
-    }
-    public static function getChatMembersCount()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/getChatMembersCount";
-    }
-    public static function getChatMember()
-    {
-        self::init();
-        return "https://api.telegram.org/bot" . self::$botToken . "/getChatMember";
-    }
+    
 }

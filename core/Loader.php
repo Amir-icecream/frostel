@@ -30,7 +30,7 @@ class Loader {
     }
 
     public static function Error($error,$message){
-        $file = __DIR__ . "/../resources/errors/error_page.php";
+        $file = __DIR__ . "/../resource/errors/error_page.php";
         return require_once($file);
     }
 }

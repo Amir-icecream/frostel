@@ -22,7 +22,7 @@ class View{
     }
 
     public function compile($view){
-        $this->file = file_get_contents(__DIR__ . "/../resources/view/$view.blade.php");
+        $this->file = file_get_contents(__DIR__ . "/../resource/view/$view.blade.php");
         $this->temp_file = __DIR__ . "/../storage/framework/view/$view.php";
         if(file_exists($this->temp_file) and $_ENV['CACHE'] === 'true')
         {
@@ -37,7 +37,7 @@ class View{
         return($this->temp_file);
     }
     public function render($view,$values = null){
-        if(!file_exists(__DIR__ . "/../resources/view/$view.blade.php"))
+        if(!file_exists(__DIR__ . "/../resource/view/$view.blade.php"))
         {
             throw new Exception("view: $view not found");
         }

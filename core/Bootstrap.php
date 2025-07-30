@@ -1,11 +1,9 @@
 <?php
 namespace Core;
+use Core\Request;
+use Core\Serve;
 
 class Bootstrap{
-    public static function ApiCheck($url){
-        return preg_match('#^/api(/|$)#',$url,$matches) === 1;
-    }
-
     public static function php_configuration(){
         $show_errors = filter_var( $_ENV['SHOW_ERRORS'] ?? 'false' , FILTER_VALIDATE_BOOLEAN );
         $charset = $_ENV['CHARSET'] ?? 'UTF-8';
@@ -40,4 +38,20 @@ class Bootstrap{
         
     }
 
+    public static function initializeRequest(){
+        if(Request::isResourceRequest())
+        {
+            return Serve::file('resource');
+        }elseif(Request::isStorageRequest())
+        {
+            return Serve::file('storage');
+        }elseif(Request::isApiRequest()){
+            require_once(__DIR__ . "/../routes/api.php");
+            return Route::dispatch(Request::url(),Request::method());
+        }else{
+            Session::start();
+            require_once(__DIR__ . "/../routes/web.php");
+            return Route::dispatch(Request::url(),Request::method());
+        }
+    }
 }

@@ -17,13 +17,5 @@ try {
 
 Bootstrap::php_configuration();
 Error_Handler::exeption_handeler();
-if(Bootstrap::ApiCheck(Request::Url()))
-{
-    require_once(__DIR__ . "/../routes/api.php");
-}
-else
-{
-    Session::start();
-    require_once(__DIR__ . "/../routes/web.php");
-}
-Route::Dispatch(Request::url(),Request::method());
+
+Bootstrap::initializeRequest();

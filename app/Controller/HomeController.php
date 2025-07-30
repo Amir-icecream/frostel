@@ -8,6 +8,9 @@ use Services\EmailService;
 use Core\Auth;
 use Core\Cookie;
 use Core\Session;
+use Config\TelegramEndPoints;
+use Core\Request;
+use Services\TelegramServices;
 
 class HomeController{
     public function show(){
@@ -40,8 +43,9 @@ class HomeController{
         
         // print_r($result);
         // echo Session::unset('frostel_session');
-        echo Auth::loginViaEmail('amir.icecream.1385@gmail.com','Amirmohammad1385',true);
-        print_r(Auth::user());
+        // echo Auth::loginViaEmail('amir.icecream.1385@gmail.com','Amirmohammad1385',true);
+        // print_r(TelegramEndPoints::getChatAdministrators());
+        // print_r(Request::agent());
         return view('home');
     }
 }

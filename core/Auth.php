@@ -92,10 +92,10 @@ class Auth{
         $user = User::query()->select(['email'])->where('email','=',$email)->run();
         return !empty($user);
     }
-    public static function role(string $username){
-        $result = User::query()->select(['role'])->where('username', '=', $username)->run();
-        if(isset($result[0]['role']) && !empty($result[0]['role'])){
-            return $result[0]['role'];
+    public static function role(){
+        $user = self::user();
+        if(isset($user['role']) && !empty($user['role'])){
+            return $user['role'];
         }
         return false;
     }

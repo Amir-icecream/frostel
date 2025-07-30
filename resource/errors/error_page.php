@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo($message); ?></title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/resource/css/style.css">
 </head>
 <body class="bg-slate-100 dark:bg-zinc-900">
     <div class="fixed flex justify-center items-center top-0 left-0 right-0 bottom-0 w-full h-full">

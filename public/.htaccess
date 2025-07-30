@@ -2,12 +2,7 @@ Options -Indexes
 
 RewriteEngine On
 
-# Skip files and directories that actually exist
-RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^ - [L]
-
-# Otherwise send to index.php
+# همه درخواست‌ها رو به index.php بفرست
 RewriteRule ^ index.php [QSA,L]
 
 ErrorDocument 500 /error.php

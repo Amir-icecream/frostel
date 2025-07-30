@@ -12,7 +12,7 @@ $trace = $e->getTraceAsString() ?? 'no trace available';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>internal error</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/resource/css/style.css">
     <style>
         .bt{
             border-color: rgba(0, 0, 0, 0.1);
