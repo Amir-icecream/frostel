@@ -13,15 +13,18 @@ class ServePolicies{
                 'js'        => 'all',
                 'errors'    => 'none', // not safe to change
                 'view'      => 'none', // not safe to change
+
             ],
             // storage policies
             'storage' => [
                 'img'      => 'all',
                 'pdf'      => 'all',
                 'video'    => 'all',
+
             ],
             // file policies
             'files' => [
+                
             ]
         ];
     }

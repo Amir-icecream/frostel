@@ -6,7 +6,7 @@
     <title>home</title>
     <link rel="stylesheet" href="/resource/css/style.css">
 </head>
-<body class="bg-neutral-800 dark:text-white" >
+<body class="bg-neutral-800 dark:text-white">
     <form action="/form" method="post" enctype="multipart/form-data">
         <input type="text" name="text">
         <input type="number" name="number">

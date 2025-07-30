@@ -2,7 +2,6 @@
 namespace App\Controller;
 
 use App\Model\User;
-use Illuminate\Validation\Rules\Email;
 use Services\SmsServices;
 use Services\EmailService;
 use Core\Auth;

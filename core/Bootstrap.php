@@ -41,10 +41,10 @@ class Bootstrap{
     public static function initializeRequest(){
         if(Request::isResourceRequest())
         {
-            return Serve::file('resource');
+            return Serve::serveFile('resource');
         }elseif(Request::isStorageRequest())
         {
-            return Serve::file('storage');
+            return Serve::serveFile('storage');
         }elseif(Request::isApiRequest()){
             require_once(__DIR__ . "/../routes/api.php");
             return Route::dispatch(Request::url(),Request::method());

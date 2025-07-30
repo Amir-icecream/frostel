@@ -37,3 +37,5 @@
   },
   plugins: [],
 }
+
+// npx tailwindcss -i ./resource/css/input.css -o ./resource/css/style.css --watch

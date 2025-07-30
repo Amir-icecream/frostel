@@ -6,118 +6,71 @@ use Core\Storage;
 use Core\Resource;
 use Core\Request;
 use Core\Auth;
-use Directory;
 use Exception;
 
 class Serve{
-    public static function file(string $from,bool $withPolicie = true){
-        // serve resource
-        if(strtolower($from) === 'resource')
+    public static function serveFile(string $from,bool $enforcePolicy = true){
+        $from = strtolower($from);
+        if(!filter_var($enforcePolicy , FILTER_VALIDATE_BOOL))
         {
-            if(!filter_var($withPolicie,FILTER_VALIDATE_BOOL))
+            return self::serveByDirectory($from);
+        }
+        $policies = ServePolicies::get();
+        $request = substr(Request::url(),strlen("/{$from}/"));
+        $directories = explode('/',$request);
+        $file = $directories[array_key_last($directories)];
+        unset($directories[array_key_last($directories)]);
+        if(array_key_exists($file,$policies['files']))
+        {
+            if(!isset($policies['files'][$file]) && empty($policies['files'][$file]))
             {
-                return Resource::serve(Request::url());
+                return self::serveByDirectory($from);
             }
-            $policies = ServePolicies::get();
-            $request = substr(Request::url(),strlen('/resource/'));
-            $directories = explode('/',$request);
-            $file = $directories[array_key_last($directories)];
-            unset($directories[array_key_last($directories)]);
-            if(array_key_exists($file,$policies['files']))
-            {
-                if(!isset($policies['files'][$file]) && empty($policies['files'][$file]))
-                {
-                    return Resource::serve(Request::url());
-                }
-                $file_policie = strtolower($policies['files'][$file]);
-                if($file_policie === 'none'){
-                    abort(403);
-                }elseif($file_policie === 'all'){
-                    return Resource::serve(Request::url());
-                }else{
-                    $user_role = strtolower(Auth::role());
-                    if($user_role === $file_policie)
-                    {
-                        return Resource::serve(Request::url());
-                    }else{
-                        abort(403);
-                    }
-                }
-            }
-            $directory = end($directories);
-            if(!isset($policies['resource'][$directory]) && empty($policies['resource'][$directory]))
-            {
-                return Resource::serve(Request::url());
-            }
-            
-            $directory_policie = strtolower($policies['resource'][$directory]);
-            if($directory_policie === 'none'){
+            $file_policy = strtolower($policies['files'][$file]);
+            if($file_policy === 'none'){
                 abort(403);
-            }elseif($directory_policie === 'all'){
-                return Resource::serve(Request::url());
+            }elseif($file_policy === 'all'){
+                return self::serveByDirectory($from);
             }else{
                 $user_role = strtolower(Auth::role());
-                if($user_role === $directory_policie){
-                    return Resource::serve(Request::url());
-                }
-                else{
+                if($user_role === $file_policy)
+                {
+                    return self::serveByDirectory($from);
+                }else{
                     abort(403);
                 }
             }
         }
-        // serve storage
-        elseif(strtolower($from) === 'storage'){
-            if(!filter_var($withPolicie,FILTER_VALIDATE_BOOL))
-                {
-                    return Storage::serve(Request::url());
-                }
-            $policies = ServePolicies::get();
-            $request = substr(Request::url(),strlen('/storage/'));
-            $directories = explode('/',$request);
-            $file = $directories[array_key_last($directories)];
-            unset($directories[array_key_last($directories)]);
-            if(array_key_exists($file,$policies['files']))
-            {
-                if(!isset($policies['files'][$file]) && empty($policies['files'][$file]))
-                {
-                    return Storage::serve(Request::url());
-                }
-                $file_policie = strtolower($policies['files'][$file]);
-                if($file_policie === 'none'){
-                    abort(403);
-                }elseif($file_policie === 'all'){
-                    return Storage::serve(Request::url());
-                }else{
-                    $user_role = strtolower(Auth::role());
-                    if($user_role === $file_policie)
-                    {
-                        return Storage::serve(Request::url());
-                    }else{
-                        abort(403);
-                    }
-                }
-            }
-            $directory = end($directories);
-            if(!isset($policies['storage'][$directory]) && empty($policies['storage'][$directory]))
-            {
-                return Storage::serve(Request::url());
-            }
-            $directory_policie = strtolower($policies['storage'][$directory]);
-            if($directory_policie === 'none'){
-                abort(403);
-            }elseif($directory_policie === 'all'){
-                return Storage::serve(Request::url());
-            }else{
-                $user_role = strtolower(Auth::role());
-                if($user_role === $directory_policie){
-                    return Storage::serve(Request::url());
-                }
-                else{
-                    abort(403);
-                }
-            }
+        $directory = end($directories);
+        if(!isset($policies[$from][$directory]) && empty($policies[$from][$directory]))
+        {
+            return self::serveByDirectory($from);
+        }
+        
+        $directory_policy = strtolower($policies[$from][$directory]);
+        if($directory_policy === 'none'){
+            abort(403);
+        }elseif($directory_policy === 'all'){
+            return self::serveByDirectory($from);
         }else{
-            throw new Exception("Directory {$from} does not exist or have not been configured");
+            $user_role = strtolower(Auth::role());
+            if($user_role === $directory_policy){
+                return self::serveByDirectory($from);
+            }
+            else{
+                abort(403);
+            }
+        }
+    }
+
+    private static function serveByDirectory(string $directory){
+        if($directory === "resource"){
+            Resource::serve(Request::url());
+        }
+        elseif($directory === "storage"){
+            Storage::serve(Request::url());
+        }else{
+            throw new Exception("Directory {$directory} does not exist or have not been configured");
         }
     }
 }
