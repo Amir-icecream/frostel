@@ -1,0 +1,9 @@
+<?php
+namespace App\Middleware;
+
+class {{class}} {
+    public function run()
+    {
+        // Your code here
+    }
+}

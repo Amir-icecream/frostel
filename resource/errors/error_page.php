@@ -14,5 +14,6 @@
             <p><?php echo($message); ?></p>
         </div>
     </div>
+    <script src="/resource/js/app.js"></script>
 </body>
 </html>

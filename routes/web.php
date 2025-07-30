@@ -1,5 +1,5 @@
 <?php
 use Core\Route;
 
-Route::get('/' , 'HomeController@show');
-Route::get('/user' , 'HomeController@show');
+Route::get('/' , 'homeController@show');
+Route::get('/user/{id}/{username}' , 'userController@show');

@@ -6,6 +6,7 @@ use Core\Storage;
 use Core\Resource;
 use Core\Request;
 use Core\Auth;
+use Core\Middleware;
 use Exception;
 
 class Serve{
@@ -20,16 +21,28 @@ class Serve{
         $directories = explode('/',$request);
         $file = $directories[array_key_last($directories)];
         unset($directories[array_key_last($directories)]);
+        // if file has policy
         if(array_key_exists($file,$policies['files']))
         {
-            if(!isset($policies['files'][$file]) && empty($policies['files'][$file]))
+            if( isset($policies['files'][$file]['middleware']) && !empty($policies['files'][$file]['middleware']) ){ // check file middleware
+                $fileMiddleware = $policies['files'][$file]['middleware'];
+                foreach ($fileMiddleware as $key => $middleware) {
+                    if(empty($middleware)){
+                        abort(403);
+                    }elseif(filter_var(self::applyMiddleware($middleware),FILTER_VALIDATE_BOOL) === false){
+                        abort(403);
+                    }
+                }
+            }
+            if(!isset($policies['files'][$file]['policy']) && empty($policies['files'][$file]['policy']))
             {
                 return self::serveByDirectory($from);
             }
-            $file_policy = strtolower($policies['files'][$file]);
-            if($file_policy === 'none'){
+            
+            $file_policy = strtolower($policies['files'][$file]['policy']);
+            if($file_policy === 'deny'){
                 abort(403);
-            }elseif($file_policy === 'all'){
+            }elseif($file_policy === 'public'){
                 return self::serveByDirectory($from);
             }else{
                 $user_role = strtolower(Auth::role());
@@ -41,16 +54,28 @@ class Serve{
                 }
             }
         }
+        // if directory has policy
         $directory = end($directories);
-        if(!isset($policies[$from][$directory]) && empty($policies[$from][$directory]))
+        if( isset($policies[$from][$directory]['middleware']) && !empty($policies[$from][$directory]['middleware']) ){ // check directory middleware
+            $directoryMiddleware = $policies[$from][$directory]['middleware'];
+            foreach ($directoryMiddleware as $key => $middleware) {
+                if(empty($middleware))
+                {
+                    abort(403);
+                }elseif(filter_var(self::applyMiddleware($middleware),FILTER_VALIDATE_BOOL) === false){
+                    abort(403);
+                }
+            }
+        }
+
+        if(!isset($policies[$from][$directory]['policy']) && empty($policies[$from][$directory]['policy']))
         {
             return self::serveByDirectory($from);
         }
-        
-        $directory_policy = strtolower($policies[$from][$directory]);
-        if($directory_policy === 'none'){
+        $directory_policy = strtolower($policies[$from][$directory]['policy']);
+        if($directory_policy === 'deny'){
             abort(403);
-        }elseif($directory_policy === 'all'){
+        }elseif($directory_policy === 'public'){
             return self::serveByDirectory($from);
         }else{
             $user_role = strtolower(Auth::role());
@@ -61,6 +86,10 @@ class Serve{
                 abort(403);
             }
         }
+    }
+    
+    public static function applyMiddleware(string $middleware){
+        return Middleware::handel($middleware);
     }
 
     private static function serveByDirectory(string $directory){

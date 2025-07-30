@@ -75,6 +75,35 @@ class console{
             return false;
         }
     }
+    public static function make_middleware($middleware_name){
+        try {
+            if(empty($middleware_name))
+            {
+                echo("please enter a controller name\n");
+                return false;
+            }
+
+            $template_dir = realpath(__DIR__ . '/../templates/middleware/default.stub');
+            $output_dir = __DIR__ . '/../app/Middleware/' . $middleware_name . '.php';
+
+            if(!is_dir(__DIR__ . '/../app/Model/'))
+            {
+                mkdir(dirname($output_dir), 0755, true);
+            }
+            if(file_exists($output_dir))
+            {
+                echo("model file already exist, please choose another name\n");
+                return false;
+            }
+            $template = file_get_contents($template_dir);
+            $template = str_replace('{{class}}', $middleware_name, $template);
+            file_put_contents($output_dir, $template);
+            echo("middleware file created successfully\n");
+        } catch (\Throwable $th) {
+            echo("cannot create middleware file\n");
+            return false;
+        }
+    }
     public static function view_fresh(){
         $dir = __DIR__ . "/../storage/framework/view/";
         $files = glob($dir.'*');

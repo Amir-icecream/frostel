@@ -28,6 +28,11 @@ switch ($command) {
         $model_name = $argv[2] ?? null;
         Console::make_model($model_name);
         break;
+    case 'make:middleware':
+    case '5':
+        $middleware_name = $argv[2] ?? null;
+        Console::make_middleware($middleware_name);
+        break;
     default:
         echo("command: $command not exist use help to show the command list");
         break;

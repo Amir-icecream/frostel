@@ -1,8 +1,8 @@
  /** @type {import('tailwindcss').Config} */
  export default {
   content: [
-    "./resourse/**/**/*.{html,js,php}",
-    "./storage/**/**/*.{html,js,php}",
+    "./resource/**/**/**/*.{html,js,php}",
+    "./storage/**/**/**/*.{html,js,php}",
   ],
   theme: {
     extend: {
@@ -32,6 +32,12 @@
       },
       height:{
         '11/12' : '91.666667%'
+      },
+      transitionDuration:{
+        '5000' : '1500ms'
+      },
+      borderWidth:{
+        '0.5' : '0.1px'
       }
     },
   },

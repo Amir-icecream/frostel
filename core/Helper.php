@@ -18,7 +18,7 @@ function abort($Error){
     if(array_key_exists($Error,$Errors))
     {
         http_response_code($Error);
-        return Loader::Error($Error,$Errors[$Error]);
+        Loader::Error($Error,$Errors[$Error]);
         exit;
     }
     else

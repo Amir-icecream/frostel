@@ -2,12 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="resource/css/style.css">
+    <title>User: <?= htmlspecialchars($username) ?></title>
+    <link rel="stylesheet" href="/resource/css/style.css">  
 </head>
-<body class="bg-neutral-800 dark:text-white">
-    <a href="">aaaaaaaaaaaaaaaaa</a>
-    <script src="resource/js/app.js"></script>
+<body class="bg-gradient-to-br from-blue-900 to-gray-900 text-white min-h-screen flex flex-col items-center justify-start p-6">
+    <div class="max-w-full mx-auto w-4/12 bg-blue-800 rounded-lg shadow-lg p-6 drop-shadow-lg hover:w-5/12 duration-500 hover:rounded-2xl transition-all cursor-pointer select-none backdrop-blur-3xl bg-opacity-30 border-0.5 border-blue-700 overflow-hidden">
+        <h1 class="text-2xl font-bold mb-4 text-blue-500"><strong>❄️</strong> Welcome, <?php echo(htmlspecialchars($username,ENT_QUOTES,"UTF-8")); ?> !</h1>
+        
+        <ul class="text-white space-y-2">
+          <li class="line-clamp-1 flex gap-2 overflow-hidden"><strong>User ID : </strong><?php echo(htmlspecialchars($id,ENT_QUOTES,"UTF-8")); ?></li>
+          <li class="line-clamp-1 flex gap-2 overflow-hidden"><strong>Username : </strong><?php echo(htmlspecialchars($username,ENT_QUOTES,"UTF-8")); ?></li>
+        </ul>
+    </div>
+
 </body>
 </html>
