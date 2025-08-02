@@ -1,7 +1,10 @@
 <?php
 namespace Core;
+
+use App\Http\Kernel;
 use Core\Request;
 use Core\Serve;
+use Core\Csrf;
 
 class Bootstrap{
     public static function php_configuration(){
@@ -39,6 +42,7 @@ class Bootstrap{
     }
 
     public static function initializeRequest(){
+        Kernel::handle();
         if(Request::isResourceRequest())
         {
             return Serve::serveFile('resource');
@@ -49,7 +53,6 @@ class Bootstrap{
             require_once(__DIR__ . "/../routes/api.php");
             return Route::dispatch(Request::url(),Request::method());
         }else{
-            Session::start();
             require_once(__DIR__ . "/../routes/web.php");
             return Route::dispatch(Request::url(),Request::method());
         }

@@ -8,9 +8,11 @@ class TelegramEndPoints{
     private static $endPoints;
 
     private static function init() {
+        if(!empty(self::$endPoints)) return;
+        self::$botToken = $_ENV['TELEGRAM_BOT_TOKEN'] ?? '';
         if(!self::$botToken)
         {
-            self::$botToken = $_ENV['TELEGRAM_BOT_TOKEN'] ?? '';
+            throw new Exception("TELEGRAM_BOT_TOKEN is not set.");
         }
 
         self::$endPoints = [
@@ -51,10 +53,15 @@ class TelegramEndPoints{
         ];
     }
 
+    private static function get($name){
+        $endPoint = 
+        return 'https://api.telegram.org/bot' . self::$botToken . '/' . $name;
+    }
+
     public static function __callStatic($name, $arguments)
     {
         self::init();
-        if(!is_array(self::$endPoints) && empty(self::$endPoints) && !in_array($name,self::$endPoints))
+        if(!array_key_exists($name,self::$endPoints))
         {
             error_log("function: {$name} not found in TelegramEndPoints");
             throw new Exception("function: {$name} not found in TelegramEndPoints");

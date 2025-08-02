@@ -17,7 +17,8 @@ class View{
             '/@if\s*\((.*?)\)/'      => '<?php if($1): ?>',
             '/@endif/'               => '<?php endif; ?>',
             '/@foreach\s*\((.*?)\)/' => '<?php foreach($1): ?>',
-            '/@endforeach/'          => '<?php endforeach; ?>'
+            '/@endforeach/'          => '<?php endforeach; ?>',
+            '/@csrf/'          => '<input name="X_CSRF_TOKEN" value="<?php echo(csrf_token()); ?>" id="csrf-token" hidden>',
         ];
     }
 

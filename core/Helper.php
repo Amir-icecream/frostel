@@ -1,6 +1,7 @@
 <?php
 use Core\Loader;
 use Core\View;
+use Core\Csrf;
 
 function abort($Error){
     $Errors = [
@@ -13,6 +14,7 @@ function abort($Error){
         405 => 'Method Not Allowed',
         406 => 'Not Acceptable',
         408 => 'Request Timeout',
+        419 => 'Page Expired',
         500 => 'Internal Server Error',
     ];
     if(array_key_exists($Error,$Errors))
@@ -44,4 +46,8 @@ function redirect($location){
     http_response_code(307);
     header("Location: $location");
     exit;
+}
+
+function csrf_token(){
+    return Csrf::getToken();
 }

@@ -1,54 +1,81 @@
-[30-Jul-2025 22:55:32 UTC] Uncaught Exception: syntax error, unexpected token ","
-#0 C:\laragon\www\Frostel\core\Helper.php(40): Core\View->render('user', Array)
-#1 C:\laragon\www\Frostel\app\Controller\userController.php(6): view('user', Array)
-#2 [internal function]: App\Controller\UserController->show('2', 'amir')
-#3 C:\laragon\www\Frostel\core\Loader.php(29): call_user_func_array(Array, Array)
-#4 C:\laragon\www\Frostel\core\Route.php(100): Core\Loader::Controller('userController', Array)
-#5 C:\laragon\www\Frostel\core\Bootstrap.php(54): Core\Route::dispatch('/user/2/amir', 'get')
-#6 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
-#7 {main}
-[30-Jul-2025 23:02:11 UTC] Uncaught Exception: middleware : a not found
-#0 C:\laragon\www\Frostel\core\Route.php(87): Core\Middleware::handel('a')
-#1 C:\laragon\www\Frostel\core\Bootstrap.php(54): Core\Route::dispatch('/', 'get')
-#2 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
-#3 {main}
-[30-Jul-2025 23:02:11 UTC] Uncaught Exception: middleware : a not found
-#0 C:\laragon\www\Frostel\core\Route.php(87): Core\Middleware::handel('a')
-#1 C:\laragon\www\Frostel\core\Bootstrap.php(54): Core\Route::dispatch('/', 'get')
-#2 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
-#3 {main}
-[30-Jul-2025 23:02:11 UTC] Uncaught Exception: middleware : a not found
-#0 C:\laragon\www\Frostel\core\Route.php(87): Core\Middleware::handel('a')
-#1 C:\laragon\www\Frostel\core\Bootstrap.php(54): Core\Route::dispatch('/', 'get')
-#2 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
-#3 {main}
-[30-Jul-2025 23:02:12 UTC] Uncaught Exception: middleware : a not found
-#0 C:\laragon\www\Frostel\core\Route.php(87): Core\Middleware::handel('a')
-#1 C:\laragon\www\Frostel\core\Bootstrap.php(54): Core\Route::dispatch('/', 'get')
-#2 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
-#3 {main}
-[30-Jul-2025 23:02:26 UTC] Uncaught Exception: middleware : AccessMiddleware not found
-#0 C:\laragon\www\Frostel\core\Route.php(87): Core\Middleware::handel('AccessMiddlewar...')
-#1 C:\laragon\www\Frostel\core\Bootstrap.php(54): Core\Route::dispatch('/', 'get')
-#2 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
-#3 {main}
-[30-Jul-2025 23:02:26 UTC] Uncaught Exception: middleware : AccessMiddleware not found
-#0 C:\laragon\www\Frostel\core\Route.php(87): Core\Middleware::handel('AccessMiddlewar...')
-#1 C:\laragon\www\Frostel\core\Bootstrap.php(54): Core\Route::dispatch('/', 'get')
-#2 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
-#3 {main}
-[30-Jul-2025 23:02:26 UTC] Uncaught Exception: middleware : AccessMiddleware not found
-#0 C:\laragon\www\Frostel\core\Route.php(87): Core\Middleware::handel('AccessMiddlewar...')
-#1 C:\laragon\www\Frostel\core\Bootstrap.php(54): Core\Route::dispatch('/', 'get')
-#2 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
-#3 {main}
-[30-Jul-2025 23:02:37 UTC] Uncaught Exception: middleware : d not found
-#0 C:\laragon\www\Frostel\core\Route.php(87): Core\Middleware::handel('d')
-#1 C:\laragon\www\Frostel\core\Bootstrap.php(54): Core\Route::dispatch('/', 'get')
-#2 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
-#3 {main}
-[30-Jul-2025 23:02:37 UTC] Uncaught Exception: middleware : d not found
-#0 C:\laragon\www\Frostel\core\Route.php(87): Core\Middleware::handel('d')
-#1 C:\laragon\www\Frostel\core\Bootstrap.php(54): Core\Route::dispatch('/', 'get')
-#2 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
-#3 {main}
+[02-Aug-2025 08:02:17 UTC] Uncaught Exception: Database connection failed: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO)
+#0 C:\laragon\www\Frostel\core\Database.php(54): Core\Database->connect()
+#1 C:\laragon\www\Frostel\core\Model.php(267): Core\Database->transaction(Object(Closure))
+#2 C:\laragon\www\Frostel\core\Model.php(257): Core\Model->execute()
+#3 C:\laragon\www\Frostel\core\Auth.php(117): Core\Model->run()
+#4 C:\laragon\www\Frostel\app\Http\Controller\homeController.php(9): Core\Auth::user()
+#5 [internal function]: App\Http\Controller\homeController->show()
+#6 C:\laragon\www\Frostel\core\Loader.php(29): call_user_func_array(Array, Array)
+#7 C:\laragon\www\Frostel\core\Route.php(100): Core\Loader::Controller('homeController', Array)
+#8 C:\laragon\www\Frostel\core\Bootstrap.php(57): Core\Route::dispatch('/', 'get')
+#9 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
+#10 {main}
+[02-Aug-2025 08:02:17 UTC] Uncaught Exception: Database connection failed: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO)
+#0 C:\laragon\www\Frostel\core\Database.php(54): Core\Database->connect()
+#1 C:\laragon\www\Frostel\core\Model.php(267): Core\Database->transaction(Object(Closure))
+#2 C:\laragon\www\Frostel\core\Model.php(257): Core\Model->execute()
+#3 C:\laragon\www\Frostel\core\Auth.php(117): Core\Model->run()
+#4 C:\laragon\www\Frostel\app\Http\Controller\homeController.php(9): Core\Auth::user()
+#5 [internal function]: App\Http\Controller\homeController->show()
+#6 C:\laragon\www\Frostel\core\Loader.php(29): call_user_func_array(Array, Array)
+#7 C:\laragon\www\Frostel\core\Route.php(100): Core\Loader::Controller('homeController', Array)
+#8 C:\laragon\www\Frostel\core\Bootstrap.php(57): Core\Route::dispatch('/', 'get')
+#9 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
+#10 {main}
+[02-Aug-2025 08:02:44 UTC] PHP Error: [2] Undefined array key "" in C:\laragon\www\Frostel\app\Http\Controller\homeController.php on line 9
+[02-Aug-2025 08:02:44 UTC] Uncaught Exception: Undefined array key ""
+#0 C:\laragon\www\Frostel\app\Http\Controller\homeController.php(9): Core\Error_Handler::Core\{closure}(2, 'Undefined array...', 'C:\\laragon\\www\\...', 9)
+#1 [internal function]: App\Http\Controller\homeController->show()
+#2 C:\laragon\www\Frostel\core\Loader.php(29): call_user_func_array(Array, Array)
+#3 C:\laragon\www\Frostel\core\Route.php(100): Core\Loader::Controller('homeController', Array)
+#4 C:\laragon\www\Frostel\core\Bootstrap.php(57): Core\Route::dispatch('/', 'get')
+#5 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
+#6 {main}
+[02-Aug-2025 08:06:15 UTC] Uncaught Exception: Database connection failed: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO)
+#0 C:\laragon\www\Frostel\core\Database.php(54): Core\Database->connect()
+#1 C:\laragon\www\Frostel\core\Model.php(267): Core\Database->transaction(Object(Closure))
+#2 C:\laragon\www\Frostel\core\Model.php(257): Core\Model->execute()
+#3 C:\laragon\www\Frostel\core\Auth.php(117): Core\Model->run()
+#4 C:\laragon\www\Frostel\app\Http\Controller\homeController.php(9): Core\Auth::user()
+#5 [internal function]: App\Http\Controller\homeController->show()
+#6 C:\laragon\www\Frostel\core\Loader.php(29): call_user_func_array(Array, Array)
+#7 C:\laragon\www\Frostel\core\Route.php(100): Core\Loader::Controller('homeController', Array)
+#8 C:\laragon\www\Frostel\core\Bootstrap.php(57): Core\Route::dispatch('/', 'get')
+#9 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
+#10 {main}
+[02-Aug-2025 08:06:15 UTC] Uncaught Exception: Database connection failed: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO)
+#0 C:\laragon\www\Frostel\core\Database.php(54): Core\Database->connect()
+#1 C:\laragon\www\Frostel\core\Model.php(267): Core\Database->transaction(Object(Closure))
+#2 C:\laragon\www\Frostel\core\Model.php(257): Core\Model->execute()
+#3 C:\laragon\www\Frostel\core\Auth.php(117): Core\Model->run()
+#4 C:\laragon\www\Frostel\app\Http\Controller\homeController.php(9): Core\Auth::user()
+#5 [internal function]: App\Http\Controller\homeController->show()
+#6 C:\laragon\www\Frostel\core\Loader.php(29): call_user_func_array(Array, Array)
+#7 C:\laragon\www\Frostel\core\Route.php(100): Core\Loader::Controller('homeController', Array)
+#8 C:\laragon\www\Frostel\core\Bootstrap.php(57): Core\Route::dispatch('/', 'get')
+#9 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
+#10 {main}
+[02-Aug-2025 08:06:16 UTC] Uncaught Exception: Database connection failed: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO)
+#0 C:\laragon\www\Frostel\core\Database.php(54): Core\Database->connect()
+#1 C:\laragon\www\Frostel\core\Model.php(267): Core\Database->transaction(Object(Closure))
+#2 C:\laragon\www\Frostel\core\Model.php(257): Core\Model->execute()
+#3 C:\laragon\www\Frostel\core\Auth.php(117): Core\Model->run()
+#4 C:\laragon\www\Frostel\app\Http\Controller\homeController.php(9): Core\Auth::user()
+#5 [internal function]: App\Http\Controller\homeController->show()
+#6 C:\laragon\www\Frostel\core\Loader.php(29): call_user_func_array(Array, Array)
+#7 C:\laragon\www\Frostel\core\Route.php(100): Core\Loader::Controller('homeController', Array)
+#8 C:\laragon\www\Frostel\core\Bootstrap.php(57): Core\Route::dispatch('/', 'get')
+#9 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
+#10 {main}
+[02-Aug-2025 08:06:16 UTC] Uncaught Exception: Database connection failed: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO)
+#0 C:\laragon\www\Frostel\core\Database.php(54): Core\Database->connect()
+#1 C:\laragon\www\Frostel\core\Model.php(267): Core\Database->transaction(Object(Closure))
+#2 C:\laragon\www\Frostel\core\Model.php(257): Core\Model->execute()
+#3 C:\laragon\www\Frostel\core\Auth.php(117): Core\Model->run()
+#4 C:\laragon\www\Frostel\app\Http\Controller\homeController.php(9): Core\Auth::user()
+#5 [internal function]: App\Http\Controller\homeController->show()
+#6 C:\laragon\www\Frostel\core\Loader.php(29): call_user_func_array(Array, Array)
+#7 C:\laragon\www\Frostel\core\Route.php(100): Core\Loader::Controller('homeController', Array)
+#8 C:\laragon\www\Frostel\core\Bootstrap.php(57): Core\Route::dispatch('/', 'get')
+#9 C:\laragon\www\Frostel\public\index.php(21): Core\Bootstrap::initializeRequest()
+#10 {main}

@@ -1,9 +1,11 @@
 <?php
 namespace App\Http\Controller;
 
-class {{class}} {
+use Core\Csrf;
+
+class testController {
     public function show()
     {
-        // Your code here
+        return view('form');
     }
 }

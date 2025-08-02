@@ -1,5 +1,7 @@
 <?php
-namespace App\Controller;
+namespace App\Http\Controller;
+
+use Core\Auth;
 
 class homeController {
     public function show()

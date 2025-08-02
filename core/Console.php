@@ -1,6 +1,8 @@
 <?php 
 namespace Core;
 
+use Core\Template;
+
 class console{
     public static function help(){
         $help = [
@@ -17,92 +19,57 @@ class console{
         }
         return(true);
     }
-    public static function make_controller($controller_name){
-        try {
-            if(empty($controller_name))
-            {
-                echo("please enter a controller name\n");
-                return false;
-            }
-
-            $template_dir = realpath(__DIR__ . '/../templates/controller/default.stub');
-            $output_dir = __DIR__ . '/../app/Controller/' . $controller_name . '.php';
-
-            if(!is_dir(__DIR__ . '/../app/Controller/'))
-            {
-                mkdir(dirname($output_dir), 0755, true);
-            }
-            if(file_exists($output_dir))
-            {
-                echo("controller file already exist, please choose another name\n");
-                return false;
-            }
-            $template = file_get_contents($template_dir);
-            $template = str_replace('{{class}}', $controller_name, $template);
-            file_put_contents($output_dir, $template);
-            echo("controller file created successfully\n");
-        } catch (\Throwable $th) {
-            echo("cannot create controller file\n");
-            return false;
+    public static function make_view($view_name){
+        $stubPath = "/view/default";
+        $outputPath = "/resource/view/$view_name.blade.php";
+        $replaceData = [];
+        $result = Template::buildFromStub($stubPath , $outputPath , $replaceData);
+        if($result !== true)
+        {
+            echo($result);
+            return;
         }
+        echo("created successfuly");
+        return;
+    }
+    public static function make_controller($controller_name){
+        $stubPath = "/controller/default";
+        $outputPath = "/app/Http/controller/$controller_name". "Controller" .".php";
+        $replaceData = ['class' => $controller_name . 'Controller'];
+        $result = Template::buildFromStub($stubPath , $outputPath , $replaceData);
+        if($result !== true)
+        {
+            echo($result);
+            return;
+        }
+        echo("created successfuly");
+        return;
     }
     public static function make_model($model_name){
-        try {
-            if(empty($model_name))
-            {
-                echo("please enter a controller name\n");
-                return false;
-            }
-
-            $template_dir = realpath(__DIR__ . '/../templates/model/default.stub');
-            $output_dir = __DIR__ . '/../app/Model/' . $model_name . '.php';
-
-            if(!is_dir(__DIR__ . '/../app/Model/'))
-            {
-                mkdir(dirname($output_dir), 0755, true);
-            }
-            if(file_exists($output_dir))
-            {
-                echo("model file already exist, please choose another name\n");
-                return false;
-            }
-            $template = file_get_contents($template_dir);
-            $template = str_replace('{{class}}', $model_name, $template);
-            file_put_contents($output_dir, $template);
-            echo("model file created successfully\n");
-        } catch (\Throwable $th) {
-            echo("cannot create model file\n");
-            return false;
+        $stubPath = "/model/default";
+        $outputPath = "/app/model/$model_name.php";
+        $replaceData = ['class' => $model_name];
+        $result = Template::buildFromStub($stubPath , $outputPath , $replaceData);
+        if($result !== true)
+        {
+            echo($result);
+            return;
         }
+        echo("created successfuly");
+        return;
     }
     public static function make_middleware($middleware_name){
-        try {
-            if(empty($middleware_name))
-            {
-                echo("please enter a controller name\n");
-                return false;
-            }
-
-            $template_dir = realpath(__DIR__ . '/../templates/middleware/default.stub');
-            $output_dir = __DIR__ . '/../app/Middleware/' . $middleware_name . '.php';
-
-            if(!is_dir(__DIR__ . '/../app/Model/'))
-            {
-                mkdir(dirname($output_dir), 0755, true);
-            }
-            if(file_exists($output_dir))
-            {
-                echo("model file already exist, please choose another name\n");
-                return false;
-            }
-            $template = file_get_contents($template_dir);
-            $template = str_replace('{{class}}', $middleware_name, $template);
-            file_put_contents($output_dir, $template);
-            echo("middleware file created successfully\n");
-        } catch (\Throwable $th) {
-            echo("cannot create middleware file\n");
-            return false;
+        $stubPath = "/middleware/default";
+        $outputPath = "/app//Http/middleware/$middleware_name". "Middleware" .".php";
+        $replaceData = ['class' => $middleware_name . 'Middleware'];
+        $result = Template::buildFromStub($stubPath , $outputPath , $replaceData);
+        if($result !== true)
+        {
+            echo($result);
+            return;
         }
+        echo("created successfuly");
+        return;
     }
     public static function view_fresh(){
         $dir = __DIR__ . "/../storage/framework/view/";

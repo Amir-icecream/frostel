@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User: <?= htmlspecialchars($username) ?></title>
-    <link rel="stylesheet" href="/resource/css/style.css">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User : {{ $username }}</title>
+    <link rel="stylesheet" href="/resource/css/style.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body class="bg-gradient-to-br from-blue-900 to-gray-900 text-white min-h-screen flex flex-col items-center justify-start p-6">
     <div class="max-w-full mx-auto w-4/12 bg-blue-800 rounded-lg shadow-lg p-6 drop-shadow-lg hover:w-5/12 duration-500 hover:rounded-2xl transition-all cursor-pointer select-none backdrop-blur-3xl bg-opacity-30 border-0.5 border-blue-700 overflow-hidden">

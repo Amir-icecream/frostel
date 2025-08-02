@@ -18,18 +18,23 @@ switch ($command) {
     case '2':
         Console::delete_logs();
         break;
-    case 'make:controller':
+    case 'make:view':
     case '3':
+        $view_name = $argv[2] ?? null;
+        Console::make_view($view_name);
+        break;
+    case 'make:controller':
+    case '4':
         $controller_name = $argv[2] ?? null;
         Console::make_controller($controller_name);
         break;
     case 'make:model':
-    case '4':
+    case '5':
         $model_name = $argv[2] ?? null;
         Console::make_model($model_name);
         break;
     case 'make:middleware':
-    case '5':
+    case '6':
         $middleware_name = $argv[2] ?? null;
         Console::make_middleware($middleware_name);
         break;

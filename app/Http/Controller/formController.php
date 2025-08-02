@@ -1,9 +1,12 @@
 <?php
 namespace App\Http\Controller;
 
-class {{class}} {
+use Core\Csrf;
+
+class formController {
     public function show()
     {
-        // Your code here
+        print_r(Csrf::validate());
+
     }
 }

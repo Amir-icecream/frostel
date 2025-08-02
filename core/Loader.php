@@ -10,13 +10,13 @@ class Loader {
         $controller = $controller_action[0] ?? 'HomeController';
         $action = $controller_action[1] ?? 'show';
 
-        $file = __DIR__ . "/../app/Controller/$controller.php";
+        $file = __DIR__ . "/../app/Http/Controller/$controller.php";
         if(!file_exists($file))
         {
             throw new \Exception("Controller : $controller not Found!!");
         }
         require_once($file);
-        $controller_class = "App\\Controller\\$controller";
+        $controller_class = "App\\Http\\Controller\\$controller";
         if(!class_exists($controller_class))
         {
             throw new Exception("controller class: $controller_class not found!!");
@@ -32,5 +32,13 @@ class Loader {
     public static function Error($error,$message){
         $file = __DIR__ . "/../resource/errors/error_page.php";
         return require_once($file);
+    }
+
+    public static function config(string $name){
+        $config = realpath(__DIR__ . "/../config/{$name}.php");
+        if(!empty($config) && file_exists($config)){
+            return require_once($config);
+        }
+        throw new Exception("unable to load config : {$name}");
     }
 }

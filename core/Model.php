@@ -1,8 +1,8 @@
 <?php
 namespace Core;
 
-use ArrayObject;
-use Config\Database;
+use Core\Database;
+
 class Model extends Database{
     private $table = null;
     private $sql = null;
