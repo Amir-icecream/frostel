@@ -10,8 +10,8 @@ class Kernel{
     ];
     public static function handle(){
         // run global middlewares
-        foreach (self::$globalMiddleware as $key => $value) {
-            Middleware::handel($value);
+        foreach (self::$globalMiddleware as $key => $middleware) {
+            Middleware::handel($middleware);
         }
     }
 }
