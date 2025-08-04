@@ -28,35 +28,58 @@ class Auth{
 
         return User::query()->create($credentials)->run();
     }
-    public static function login(string $username, string $password,bool $remember = false){
-        if(!self::userExists($username)){
+    // login user with specific credentials
+    public static function attempt(array $credentials , bool $remember = false){
+        if (!isset($credentials['password']) || (!isset($credentials['username']) && !isset($credentials['email']))) {
             return false;
         }
-        $user = User::query()->select(['password','remember_token'])->where('username', '=', $username)->run();
-        $userpassword = $user[0]['password'] ?? null;
-        if(!password_verify($password,$userpassword)){
+        $password = $credentials['password'];
+        unset($credentials['password']);
+        $model = User::query()->select(['password','remember_token'])->where('remember_token','IS NOT NULL');
+        foreach ($credentials as $col => $value) {
+            $model->andwhere($col,'=',$value);
+        }
+        $model->limit(1)->run();
+        $user = $model->getResult();
+        if(empty($user)){
             return false;
         }
-        $remember_token = $user[0]['remember_token'] ?? '';
-        if(empty($remember_token)){
+        $passwordHash = $user->password;
+        if(!password_verify($password,$passwordHash)){
             return false;
         }
+        $remember_token = $user->remember_token;
         if($remember){
-            return self::set_cookie($remember_token);
+            self::set_cookie($remember_token);
         }else{
-            return self::set_session($remember_token);
+            self::set_session($remember_token);
         }
+
+        return true;
+    }
+    public static function login(object $user,bool $remember = false): bool{
+        if( empty($user) || !isset($user->username) || !isset($user->remember_token) ){
+            return false;
+        }
+        $remember_token = $user->remember_token;
+        if($remember){
+            self::set_cookie($remember_token);
+        }else{
+            self::set_session($remember_token);
+        }
+
+        return true;
     }
     public static function loginViaEmail(string $email, string $password,bool $remember = false){
         if(!self::userExistsViaEmail($email)){
             return false;
         }
         $user = User::query()->select(['password','remember_token'])->where('email', '=', $email)->run();
-        $userpassword = $user[0]['password'] ?? null;
+        $userpassword = $user->password ?? null;
         if(!password_verify($password,$userpassword)){
             return false;
         }
-        $remember_token = $user[0]['remember_token'] ?? '';
+        $remember_token = $user->remember_token ?? '';
         if(empty($remember_token)){
             return false;
         }
@@ -71,11 +94,8 @@ class Auth{
         Cookie::unset($_ENV['COOKIE_NAME'] ?? 'frostel_token');
     }
     public static function deleteAccount(string $username){
-        if(self::userExists($username)){
-            $result = User::query()->delete()->where('username', '=', $username)->run();
-            return is_array($result);
-        }
-        return false;
+        User::query()->delete()->where('username', '=', $username)->run();
+        return true;
     }
     public static function userExists(string $username){
         $user = User::query()->select(['username'])->where('username','=',$username)->run();
@@ -94,8 +114,8 @@ class Auth{
     }
     public static function role(){
         $user = self::user();
-        if(isset($user['role']) && !empty($user['role'])){
-            return $user['role'];
+        if(isset($user->role) && !empty($user->role)){
+            return $user->role;
         }
         return false;
     }
@@ -114,18 +134,18 @@ class Auth{
             return 'false';
         }
 
-        $result = User::query()->select(['*'])->where('remember_token' ,'=', $remember_token)->run();
+        $result = User::query()->select(['*'])->where('remember_token' ,'=', $remember_token)->limit(1)->run();
         if(!empty($result))
         {
-            if(isset($result[0]['password']))
+            if(isset($result->password))
             {
-                unset($result[0]['password']);
+                unset($result->password);
             }
-            if(isset($result[0]['remember_token']))
+            if(isset($result->remember_token))
             {
-                unset($result[0]['remember_token']);
+                unset($result->remember_token);
             }
-            return $result[0];
+            return $result;
         }
         return false;
     }
@@ -139,7 +159,14 @@ class Auth{
         $token_http_only = $_ENV['COOKIE_HTTP_ONLY'] ?? true;
         $token_same_site = $_ENV['COOKIE_SAME_SITE'] ?? 'lax';
 
-        return Cookie::set($token_name,$token,$token_expire,$token_path,$token_domain,$token_secure,$token_http_only,$token_same_site);
+        return Cookie::set($token_name,
+        $token,
+        $token_expire,
+        $token_path,
+        $token_domain,
+        $token_secure,
+        $token_http_only,
+        $token_same_site);
     }
     public static function set_session($session){
         $session_key = $_ENV['SESSION_NAME'] ?? 'frostel_session';

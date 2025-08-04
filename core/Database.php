@@ -6,7 +6,7 @@ use PDO;
 use Exception;
 
 class Database{
-    private $settings;
+    private $settings = null;
 
     private $db = null;
     private $in_transaction = false;
@@ -15,7 +15,7 @@ class Database{
         $this->settings = Loader::config('Database');
         if(!$this->settings || !is_array($this->settings)){
             throw new Exception('Database config is invalid or missing.');
-        } 
+        }
         register_shutdown_function(function() {
             $this->close();
         });
@@ -26,12 +26,11 @@ class Database{
         if($this->db !== null){
             return $this;
         }
-
-        $database =$this->settings['DATABASE'] ?? 'mysql';
+        $database = $this->settings['DATABASE'] ?? 'mysql';
         $host = $this->settings['DB_HOST'] ?? 'localhost';
-        $username = $this->settings['DB_USERNAME'] ?? 'root';
+        $username = $this->settings['DB_USERNAME'] ?? '';
         $password = $this->settings['DB_PASSWORD'] ?? '';
-        $name = $this->settings['DB_NAME'] ?? 'Dtoy.ir';
+        $name = $this->settings['DB_NAME'] ?? '';
         $charset = $this->settings['DB_CHARSET'] ?? 'utf8mb4';
 
         try {
@@ -41,7 +40,7 @@ class Database{
         }
         // Set attributes for the PDO instance
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
         $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
         return $this;

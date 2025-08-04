@@ -11,8 +11,8 @@ class Model extends Database{
     private $allowed_operations = ['=', '!=', '<', '>', '<=', '>=', 'LIKE', 'IS NULL', 'IS NOT NULL'];
     private $query_type = null;
     private $safe = true; 
-    protected $sanitized = [];
-    protected $output = [];
+    protected $result = null;
+
 
     public function __construct() {
         $model_path = get_called_class();
@@ -67,28 +67,40 @@ class Model extends Database{
     }
     
     //conditions
-    public function where($col,$operation,$param){
+    public function where($col,$operation,$param = null){
         if(in_array($operation , $this->allowed_operations) === false){
             throw new \Exception("Invalid operation: $operation. Allowed operations are: " . implode(', ', $this->allowed_operations));
         }
-        $param_name = $this->add_parameter($param);
-        $this->sql .= " WHERE $col $operation :$param_name ";
+        if($param !== null){
+            $param_name = $this->add_parameter($param);
+            $this->sql .= " WHERE $col $operation :$param_name ";
+        }else{
+            $this->sql .= " WHERE $col $operation ";
+        }
         return $this;
     }
-    public function orwhere($col,$operation,$param){
+    public function orwhere($col,$operation,$param = null){
         if(in_array($operation , $this->allowed_operations) === false){
             throw new \Exception("Invalid operation: $operation. Allowed operations are: " . implode(', ', $this->allowed_operations));
         }
-        $param_name = $this->add_parameter($param);
-        $this->sql .= " OR $col $operation :$param_name ";
+        if($param !== null){
+            $param_name = $this->add_parameter($param);
+            $this->sql .= " OR $col $operation :$param_name ";
+        }else{
+            $this->sql .= " OR $col $operation ";
+        }
         return $this;
     }
-    public function andwhere($col,$operation,$param){
+    public function andwhere($col,$operation,$param = null){
         if(in_array($operation , $this->allowed_operations) === false){
             throw new \Exception("Invalid operation: $operation. Allowed operations are: " . implode(', ', $this->allowed_operations));
         }
-        $param_name = $this->add_parameter($param);
-        $this->sql .= " AND $col $operation :$param_name ";
+        if($param !== null){
+            $param_name = $this->add_parameter($param);
+            $this->sql .= " AND $col $operation :$param_name ";
+        }else{
+            $this->sql .= " AND $col $operation ";
+        }
         return $this;
     }
 
@@ -170,7 +182,7 @@ class Model extends Database{
             $result = $this->querybuilder('SHOW COLUMNS FROM ' . $this->table);
             $coulmns = array();
             foreach ($result as $key => $value) {
-                array_push($coulmns , $value['Field']);
+                array_push($coulmns , $value->Field);
             }
             foreach ($coulmns as $key => $value) {
                 if(!in_array($value, $field)){
@@ -224,8 +236,8 @@ class Model extends Database{
      * @warning This method is not safe be carefull while using it.
      */
     public function querybuilder($query , $parameters = []){
-        $this->sanitized = [];
-        $this->output = [];
+        $this->result = null;
+
         preg_match_all('/:([a-zA-Z0-9_.]+)/i', $query, $matches);
         $matches = $matches[0];
         $db = new Database;
@@ -240,14 +252,16 @@ class Model extends Database{
             }
             $statement->execute();
             $result = $statement->fetchAll();
-            foreach ($result as $row) {
-                foreach ($row as $key => $value) {
-                    $this->sanitized[$key] = htmlspecialchars($value ?? '' ,ENT_QUOTES,'UTF-8');                    
-                }
-                $this->output[] = $this->sanitized;
+            if(empty($result)){
+                return false;
+            }elseif(count($result) > 1){
+                $this->result = $result;
+            }else{
+                $this->result = $result[0];
             }
+            $this->result = $result;
         });
-        return $this->output;
+        return $this->result;
     }
 
     /**
@@ -257,8 +271,7 @@ class Model extends Database{
         return $this->execute();
     }
     private function execute(){
-        $this->sanitized = [];
-        $this->output = [];
+        $this->result = null;
 
         if($this->safe and !str_contains(strtoupper($this->sql),'WHERE') and ($this->query_type !== 'READ' and $this->query_type !== 'DELETE') ){
             throw new \Exception("Unsafe operation detected. Please use 'where' method to specify conditions before executing the query.");
@@ -275,20 +288,24 @@ class Model extends Database{
             }
             $statement->execute();
             $result = $statement->fetchAll();
-            foreach ($result as $row) {
-                
-                foreach ($row as $key => $value) {
-                    $this->sanitized[$key] = htmlspecialchars($value ?? '' ,ENT_QUOTES,'UTF-8');                    
-                }
-                $this->output[] = $this->sanitized;
+            if(empty($result)){
+                return false;
+            }elseif(count($result) > 1){
+                $this->result = $result;
+            }else{
+                $this->result = $result[0];
             }
         });
         $this->table = null;
         $this->sql = null;
         $this->parameters = [];
         $this->param_count = 0;
-        return $this->output;
+        return $this->result;
         
+    }
+
+    public function getResult(){
+        return $this->result ?? false;
     }
 
 }

@@ -37,7 +37,7 @@ class Loader {
     public static function config(string $name){
         $config = realpath(__DIR__ . "/../config/{$name}.php");
         if(!empty($config) && file_exists($config)){
-            return require_once($config);
+            return require($config);
         }
         throw new Exception("unable to load config : {$name}");
     }
