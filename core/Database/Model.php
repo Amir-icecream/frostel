@@ -1,7 +1,7 @@
 <?php
-namespace Core;
+namespace Core\Database;
 
-use Core\Database;
+use Core\Database\Database;
 
 class Model extends Database{
     private $table = null;
@@ -229,7 +229,6 @@ class Model extends Database{
         return $this;
     }
 
-
     /**
      * you can create and run custom query with this method.
      * connection method is PDO. 
@@ -237,11 +236,11 @@ class Model extends Database{
      */
     public function querybuilder($query , $parameters = []){
         $this->result = null;
-
+        $result = null;
         preg_match_all('/:([a-zA-Z0-9_.]+)/i', $query, $matches);
         $matches = $matches[0];
         $db = new Database;
-        $db->transaction(function($db) use ($query, $parameters, $matches){
+        $db->transaction(function($db) use ($query, $parameters, $matches,&$result){
             $statement = $db->prepare($query);
             foreach ($matches as $key => $value) {
                 if(isset($parameters[$key])){
@@ -255,13 +254,14 @@ class Model extends Database{
             if(empty($result)){
                 return false;
             }elseif(count($result) > 1){
-                $this->result = $result;
+                $result = $result;
             }else{
-                $this->result = $result[0];
+                $result = $result[0];
             }
-            $this->result = $result;
+            $result = $result;
         });
-        return $this->result;
+        $this->result = $result;
+        return $result;
     }
 
     /**

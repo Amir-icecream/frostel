@@ -1,0 +1,20 @@
+<?php
+namespace Database;
+
+use Core\Database\Schema;
+use Core\Database\BluePrint;
+use Core\Database\Migration;
+
+return new class extends Migration{
+    public function up(){
+        Schema::create(/*table*/,function(BluePrint $table){
+            $table->id();
+
+            $table->timestamps();
+        });
+    }
+
+    public function down(){
+        Schema::dropIfExists(/*table*/);
+    }
+};

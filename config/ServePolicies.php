@@ -43,18 +43,6 @@ class ServePolicies{
                         
                     ]
                 ],
-                'pdf' => [
-                    'policy' => 'public',
-                    'middleware' => [
-
-                    ]
-                ],
-                'video' => [
-                    'policy' => 'public',
-                    'middleware' => [
-
-                    ]
-                ],
 
             ],
             // file policies

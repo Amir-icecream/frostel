@@ -1,5 +1,5 @@
 <?php
-namespace App\Model;
+namespace App\Database\Model;
 
 class {{class}} extends Model{
 

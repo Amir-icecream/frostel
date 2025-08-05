@@ -1,15 +1,15 @@
 <?php
-namespace Core;
+namespace Core\Database;
 
 use PDOException;
 use PDO;
 use Exception;
+use Core\Loader;
 
 class Database{
     private $settings = null;
 
     private $db = null;
-    private $in_transaction = false;
 
     public function __construct(){
         $this->settings = Loader::config('Database');
@@ -49,7 +49,6 @@ class Database{
     public function begin_transaction(){
         $this->connect();
         $this->db->beginTransaction();
-        $this->in_transaction = true;
         return $this;
     }
 
@@ -63,31 +62,25 @@ class Database{
             return($result);
         } catch (\Throwable $th) {
             $this->rollback();
-            throw $th;
+            return $th->getMessage();
         }
     }
 
     public function commit(){
-        if($this->in_transaction){
+        if($this->db && $this->db->inTransaction()){
             $this->db->commit();
-            $this->in_transaction = false;
-        } else {
-            throw new Exception("No transaction in progress.");
         }
         return $this;
     }
     public function rollback(){
-        if($this->in_transaction){
+        if($this->db && $this->db->inTransaction()){
             $this->db->rollBack();
-            $this->in_transaction = false;
-        } else {
-            throw new Exception("No transaction in progress.");
         }
         return $this;
     }
 
     public function close(){
-        if($this->in_transaction){
+        if($this->db && $this->db->inTransaction()){
             $this->rollback();
         }
         $this->db = null;

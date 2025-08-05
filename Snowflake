@@ -38,7 +38,25 @@ switch ($command) {
         $middleware_name = $argv[2] ?? null;
         Console::make_middleware($middleware_name);
         break;
+    case 'make:migration':
+    case '7':
+        $migration_name = $argv[2] ?? null;
+        Console::make_migration($migration_name);
+        break;
+    case 'migrate':
+    case '8':
+        Console::migrateUp();
+        break;
+    case 'migrate:reset':
+    case '9':
+        Console::migrateDown();
+        break;
+    case 'migrate:fresh':
+    case '10':
+        Console::migrateDown();
+        Console::migrateUp();
+        break;
     default:
-        echo("command: $command not exist use help to show the command list");
+        echo("command: $command not exist use help to show the command list" . PHP_EOL);
         break;
 }

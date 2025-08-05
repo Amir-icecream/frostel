@@ -4,10 +4,10 @@ namespace Core;
 use Exception;
 
 class Template{
-    public static function buildFromStub(string $stubPath , string $outputPath , array $replaceData){
-        $stubPath = realpath(__DIR__ . '/../templates/' . ltrim($stubPath,'/') . '.stub');
+    public static function buildFromStub(string $stubPath , string $outputPath , array $replaceData = []){
+        $stubPath = realpath(__DIR__ . '/../templates/framework/' . ltrim($stubPath,'/') . '.stub');
         if($stubPath === false){
-            return ("no such directory found in :  {$stubPath}");
+            return ("no such directory found for stub file");
         }
         $stubFile = file_get_contents($stubPath);
         if($stubFile === false){
