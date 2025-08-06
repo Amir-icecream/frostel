@@ -2,6 +2,8 @@
 namespace Core\Database;
 
 use Core\Database\Database;
+use Core\Pluralize;
+use Core\Loader;
 
 class Model extends Database{
     private $table = null;
@@ -18,8 +20,9 @@ class Model extends Database{
         $model_path = get_called_class();
         $pathes = explode('\\',$model_path);
         $model = $pathes[array_key_last($pathes)];
-        $this->table = strtolower($model) . 's';
+        $this->table = Pluralize::do($model);
     }
+
     public static function query(){
         return new static;
     }
@@ -278,11 +281,8 @@ class Model extends Database{
         }
         $db = new Database;
         $db->transaction(function($db){
-            try {
-                $statement = $db->prepare($this->sql);
-            } catch (\Throwable $th) {
-                throw new \Exception("Syntax error in SQL query: " . $th->getMessage() . ' SQL: ' . $this->sql);
-            }
+
+            $statement = $db->prepare($this->sql);
             foreach ($this->parameters as $key => $value) {
                 $statement->bindValue($key,$value);
             }
@@ -295,7 +295,9 @@ class Model extends Database{
             }else{
                 $this->result = $result[0];
             }
+
         });
+
         $this->table = null;
         $this->sql = null;
         $this->parameters = [];

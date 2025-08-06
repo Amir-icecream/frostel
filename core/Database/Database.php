@@ -32,20 +32,37 @@ class Database{
         $password = $this->settings['DB_PASSWORD'] ?? '';
         $name = $this->settings['DB_NAME'] ?? '';
         $charset = $this->settings['DB_CHARSET'] ?? 'utf8mb4';
+        $collate = $this->settings['DB_COLLATE'] ?? 'utf8mb4_unicode_ci';
 
         try {
             $this->db = new PDO($database . ':host=' . $host . ';dbname=' . $name . ';charset=' . $charset ,$username, $password);
+            $this->setAtt($this->db);
         } catch (PDOException $e) {
-            throw new Exception("Database connection failed: " . $e->getMessage());
+            if($e->getCode() === 1049){
+                try {
+
+                    $db = new PDO($database . ':host=' . $host,$username,$password);
+                    $this->setAtt($db);
+                    $db->exec("CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET utf8mb4 COLLATE {$collate}");
+
+                    $this->db = new PDO($database . ':host=' . $host . ';dbname=' . $name . ';charset=' . $charset ,$username, $password);
+                    $this->setAtt($this->db);
+
+                } catch (\PDOException $e) {
+                    throw new Exception("Database connection failed: " . $e->getMessage());
+                }
+            }else{
+                throw new Exception("Database connection failed: " . $e->getMessage());
+            }
         }
-        // Set attributes for the PDO instance
-        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-        $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
         return $this;
     }
-
+    private static function setAtt($connection){
+        $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+        $connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+    }
     public function begin_transaction(){
         $this->connect();
         $this->db->beginTransaction();
@@ -62,7 +79,7 @@ class Database{
             return($result);
         } catch (\Throwable $th) {
             $this->rollback();
-            return $th->getMessage();
+            throw new Exception("Syntax error in SQL query: " . $th->getMessage());
         }
     }
 

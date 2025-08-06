@@ -1,6 +1,8 @@
 <?php 
 namespace Core;
 
+use Core\Database\Database;
+use Core\Database\Migrator;
 use Core\Template;
 use Directory;
 use DirectoryIterator;
@@ -23,7 +25,7 @@ class console{
     }
     // make commands
     public static function make_view($view_name){
-        $stubPath = "/framework/view/default";
+        $stubPath = "/view/default";
         $outputPath = "/resource/view/$view_name.blade.php";
         $replaceData = [];
         $result = Template::buildFromStub($stubPath , $outputPath , $replaceData);
@@ -36,7 +38,7 @@ class console{
         return;
     }
     public static function make_controller($controller_name){
-        $stubPath = "/framework/controller/default";
+        $stubPath = "/controller/default";
         $outputPath = "/app/Http/controller/$controller_name". "Controller" .".php";
         $replaceData = ['class' => $controller_name . 'Controller'];
         $result = Template::buildFromStub($stubPath , $outputPath , $replaceData);
@@ -49,7 +51,7 @@ class console{
         return;
     }
     public static function make_model($model_name){
-        $stubPath = "/framework/model/default";
+        $stubPath = "/model/default";
         $outputPath = "/app/model/$model_name.php";
         $replaceData = ['class' => $model_name];
         $result = Template::buildFromStub($stubPath , $outputPath , $replaceData);
@@ -62,7 +64,7 @@ class console{
         return;
     }
     public static function make_middleware($middleware_name){
-        $stubPath = "/framework/middleware/default";
+        $stubPath = "/middleware/default";
         $outputPath = "/app//Http/middleware/$middleware_name". "Middleware" .".php";
         $replaceData = ['class' => $middleware_name . 'Middleware'];
         $result = Template::buildFromStub($stubPath , $outputPath , $replaceData);
@@ -89,7 +91,7 @@ class console{
         }
         $nextNumber = str_pad($fileCount + 1, 6, '0', STR_PAD_LEFT); // نتیجه: 000001
         $migration = '0001_01_01_' . $nextNumber . '_' . $migration_name . '.php';
-        $result = Template::buildFromStub('//migration/default','/database/migrations/' . $migration);
+        $result = Template::buildFromStub('/migration/default','/database/migrations/' . $migration);
         if($result !== true){
             echo $result . PHP_EOL;
         }else{
@@ -97,60 +99,17 @@ class console{
         }
     }
     // migration
-    public static function migrateUp(){
-        $directory = realpath(__DIR__ . '/../database/migrations/');
-        if($directory === false){
-            echo "directory database/migrations not found" . PHP_EOL;
-            return;
-        } 
-        $files_path = [];
-        foreach (new DirectoryIterator($directory) as $file) {
-            if(!$file->isFile() || $file->getExtension() !== 'php'){
-                continue;
-            }
-            array_push($files_path,$file->getPathname());
-        }
-
-        sort($files_path);
-
-        foreach ($files_path as $file) {
-            $migration = include($file);
-            if(!is_object($migration)){
-                continue;
-            }
-            if(!method_exists($migration,'up')){
-                continue;
-            }
-            $migration->up();
-        }
+    public static function migrateUp(){  
+        $DB = new Database;
+        $DB->connect();      
+        $migrator = new Migrator;
+        $migrator->run();
     }
     public static function migrateDown(){
-        $directory = realpath(__DIR__ . '/../database/migrations/');
-        if($directory === false){
-            echo "directory database/migrations not found" . PHP_EOL;
-            return;
-        } 
-        $files_path = [];
-        foreach (new DirectoryIterator($directory) as $file) {
-            if(!$file->isFile() || $file->getExtension() !== 'php'){
-                continue;
-            }
-            array_push($files_path,$file->getPathname());
-        }
-
-        sort($files_path);
-        $files_path = array_reverse($files_path);
-
-        foreach ($files_path as $file) {
-            $migration = include($file);
-            if(!is_object($migration)){
-                continue;
-            }
-            if(!method_exists($migration,'down')){
-                continue;
-            }
-            $migration->down();
-        }
+        $DB = new Database;
+        $DB->connect();    
+        $migrator = new Migrator;
+        $migrator->down();
     }
 
     // fresh view cache
@@ -182,4 +141,17 @@ class console{
             return false;
         }
     }
+
+    // serve project 
+    public static function serve(){
+        $dir = realpath(__DIR__ . '/../public/index.php');
+        if($dir === false){
+            echo "could not find the index file" . PHP_EOL;
+            return;
+        }
+        $command = 'PHP -S localhost:8000 ' . $dir;
+        passthru($command);
+
+    }
+
 }

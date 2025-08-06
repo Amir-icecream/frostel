@@ -26,7 +26,8 @@ class Auth{
             self::set_session($remember_token);
         }
 
-        return User::query()->create($credentials)->run();
+        User::query()->create($credentials)->run() === false;
+        return true;
     }
     // login user with specific credentials
     public static function attempt(array $credentials , bool $remember = false){

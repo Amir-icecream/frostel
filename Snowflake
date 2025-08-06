@@ -1,7 +1,15 @@
 <?php
 use Core\Console;
+use Dotenv\Dotenv;
 
 require_once(__DIR__ . "/vendor/autoload.php");
+
+try {
+    $dotenv = Dotenv::createImmutable(__DIR__ . '/');
+    $dotenv->load();
+} catch (\Exception $e) {
+    throw new Exception("Environment load error : " . $e->getMessage());
+}
 
 $command = $argv[1];
 
@@ -10,49 +18,53 @@ switch ($command) {
     case '0':
         Console::help();
         break;
-    case 'view-fresh':
+    case 'serve':
     case '1':
+        Console::serve();
+        break;
+    case 'view-fresh':
+    case '2':
         Console::view_fresh();
         break;
     case 'delete-logs':
-    case '2':
+    case '3':
         Console::delete_logs();
         break;
     case 'make:view':
-    case '3':
+    case '4':
         $view_name = $argv[2] ?? null;
         Console::make_view($view_name);
         break;
     case 'make:controller':
-    case '4':
+    case '5':
         $controller_name = $argv[2] ?? null;
         Console::make_controller($controller_name);
         break;
     case 'make:model':
-    case '5':
+    case '6':
         $model_name = $argv[2] ?? null;
         Console::make_model($model_name);
         break;
     case 'make:middleware':
-    case '6':
+    case '7':
         $middleware_name = $argv[2] ?? null;
         Console::make_middleware($middleware_name);
         break;
     case 'make:migration':
-    case '7':
+    case '8':
         $migration_name = $argv[2] ?? null;
         Console::make_migration($migration_name);
         break;
     case 'migrate':
-    case '8':
+    case '9':
         Console::migrateUp();
         break;
     case 'migrate:reset':
-    case '9':
+    case '10':
         Console::migrateDown();
         break;
     case 'migrate:fresh':
-    case '10':
+    case '11':
         Console::migrateDown();
         Console::migrateUp();
         break;
